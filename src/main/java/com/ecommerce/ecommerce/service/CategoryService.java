@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.service;
 import com.ecommerce.ecommerce.dto.CategoryRequest;
 import com.ecommerce.ecommerce.dto.CategoryResponse;
 import com.ecommerce.ecommerce.entity.Category;
+import com.ecommerce.ecommerce.exception.CategoryInUseException;
 import com.ecommerce.ecommerce.exception.CategoryNotFoundException;
 import com.ecommerce.ecommerce.exception.DuplicateCategoryException;
 import com.ecommerce.ecommerce.repository.CategoryRepository;
@@ -66,6 +67,12 @@ public class CategoryService {
         if (!categoryRepository.existsById(id)) {
             throw new CategoryNotFoundException("Category not found with id: " + id);
         }
+
+        // Prevent deletion of category that has products
+        if (categoryRepository.hasProducts(id)) {
+            throw new CategoryInUseException("Cannot delete category that has products assigned to it");
+        }
+
         categoryRepository.deleteById(id);
     }
 

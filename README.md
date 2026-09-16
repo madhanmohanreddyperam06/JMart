@@ -17,6 +17,22 @@ A production-style E-Commerce Management System built with Java and Spring Boot.
 - **JWT (JJWT)** - for token-based authentication
 
 ## Current Development Phase
+**Phase 7: Admin Module & Administration APIs** ✅ COMPLETED
+
+This phase includes:
+- Admin dashboard with comprehensive statistics and revenue calculations
+- Admin product management with full CRUD operations
+- Admin category management with deletion protection
+- Admin user management with role updates and last-admin protection
+- Admin order management with status transitions
+- Admin inventory management with low-stock alerts
+- Configurable low-stock threshold for inventory monitoring
+- Stock status classification (IN_STOCK, LOW_STOCK, OUT_OF_STOCK)
+- Admin-specific DTOs and exception handling
+- Role-based authorization for all admin endpoints
+- Revenue calculation excluding cancelled orders
+- Comprehensive admin API structure under /api/admin base path
+
 **Phase 6: Order Management + Checkout + Inventory Transactions** ✅ COMPLETED
 
 This phase includes:
@@ -162,9 +178,39 @@ Once the application starts:
 - `GET /api/orders/{orderId}` - Get specific order details
 - `PUT /api/orders/{orderId}/cancel` - Cancel an order (PLACED status only)
 
+### Admin Product Endpoints
+- `POST /api/admin/products` - Create a new product (ADMIN only)
+- `GET /api/admin/products` - Get all products (ADMIN only)
+- `GET /api/admin/products/{id}` - Get product by ID (ADMIN only)
+- `PUT /api/admin/products/{id}` - Update product (ADMIN only)
+- `DELETE /api/admin/products/{id}` - Delete product (ADMIN only)
+- `GET /api/admin/products/search?name={name}` - Search products by name (ADMIN only)
+
+### Admin Category Endpoints
+- `POST /api/admin/categories` - Create a new category (ADMIN only)
+- `GET /api/admin/categories` - Get all categories (ADMIN only)
+- `GET /api/admin/categories/{id}` - Get category by ID (ADMIN only)
+- `PUT /api/admin/categories/{id}` - Update category (ADMIN only)
+- `DELETE /api/admin/categories/{id}` - Delete category (ADMIN only)
+
 ### Admin Order Endpoints
 - `GET /api/admin/orders` - Get all orders (ADMIN only)
+- `GET /api/admin/orders/{orderId}` - Get specific order details (ADMIN only)
 - `PUT /api/admin/orders/{orderId}/status` - Update order status (ADMIN only)
+
+### Admin Dashboard Endpoints
+- `GET /api/admin/dashboard` - Get dashboard statistics (ADMIN only)
+
+### Admin Inventory Endpoints
+- `GET /api/admin/inventory` - Get all inventory with stock status (ADMIN only)
+- `GET /api/admin/inventory/low-stock` - Get low-stock products (ADMIN only)
+- `GET /api/admin/inventory/out-of-stock` - Get out-of-stock products (ADMIN only)
+- `PUT /api/admin/inventory/{productId}` - Update product inventory (ADMIN only)
+
+### Admin User Management Endpoints
+- `GET /api/admin/users` - Get all users (ADMIN only)
+- `GET /api/admin/users/{id}` - Get specific user details (ADMIN only)
+- `PUT /api/admin/users/{userId}/role` - Update user role (ADMIN only)
 
 ### Category Endpoints
 - `POST /api/categories` - Create a new category
@@ -294,6 +340,83 @@ curl -X PUT http://localhost:8080/api/admin/orders/1/status \
   }'
 ```
 
+### Get Admin Dashboard (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/dashboard \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Get All Inventory (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/inventory \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Get Low Stock Products (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/inventory/low-stock \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Get Out of Stock Products (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/inventory/out-of-stock \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Update Inventory (ADMIN only)
+```bash
+curl -X PUT http://localhost:8080/api/admin/inventory/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN" \
+  -d '{
+    "quantity": 50
+  }'
+```
+
+### Get All Users (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/users \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Get Specific User (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/users/1 \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Update User Role (ADMIN only)
+```bash
+curl -X PUT http://localhost:8080/api/admin/users/2/role \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN" \
+  -d '{
+    "role": "ADMIN"
+  }'
+```
+
+### Create Product (ADMIN only)
+```bash
+curl -X POST http://localhost:8080/api/admin/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN" \
+  -d '{
+    "name": "HP Laptop",
+    "description": "15 inch laptop",
+    "price": 55000,
+    "quantity": 10,
+    "brand": "HP",
+    "categoryId": 1
+  }'
+```
+
+### Delete Category (ADMIN only)
+```bash
+curl -X DELETE http://localhost:8080/api/admin/categories/1 \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
 ### Create a Category
 ```bash
 curl -X POST http://localhost:8080/api/categories \
@@ -335,13 +458,23 @@ src/main/java/com/ecommerce/ecommerce/
 │   ├── AuthController.java
 │   ├── UserController.java
 │   ├── CartController.java
-│   └── OrderController.java
+│   ├── OrderController.java
+│   ├── AdminDashboardController.java
+│   ├── AdminProductController.java
+│   ├── AdminCategoryController.java
+│   ├── AdminUserController.java
+│   ├── AdminOrderController.java
+│   └── AdminInventoryController.java
 ├── service/        # Business logic layer
 │   ├── CategoryService.java
 │   ├── ProductService.java
 │   ├── UserService.java
 │   ├── CartService.java
-│   └── OrderService.java
+│   ├── OrderService.java
+│   ├── AdminDashboardService.java
+│   ├── AdminInventoryService.java
+│   ├── AdminUserService.java
+│   └── AdminOrderService.java
 ├── repository/     # Data access layer
 │   ├── CategoryRepository.java
 │   ├── ProductRepository.java
@@ -374,7 +507,13 @@ src/main/java/com/ecommerce/ecommerce/
 │   ├── CartResponse.java
 │   ├── OrderResponse.java
 │   ├── OrderItemResponse.java
-│   └── UpdateOrderStatusRequest.java
+│   ├── UpdateOrderStatusRequest.java
+│   ├── AdminDashboardResponse.java
+│   ├── AdminUserResponse.java
+│   ├── AdminOrderResponse.java
+│   ├── InventoryResponse.java
+│   ├── InventoryUpdateRequest.java
+│   └── UpdateUserRoleRequest.java
 ├── exception/      # Custom exceptions
 │   ├── CategoryNotFoundException.java
 │   ├── ProductNotFoundException.java
@@ -389,18 +528,23 @@ src/main/java/com/ecommerce/ecommerce/
 │   ├── OrderNotFoundException.java
 │   ├── EmptyCartException.java
 │   ├── InvalidOrderStatusException.java
+│   ├── LastAdminException.java
+│   ├── CategoryInUseException.java
+│   ├── InvalidInventoryQuantityException.java
 │   ├── ErrorResponse.java
 │   ├── ValidationErrorResponse.java
 │   └── GlobalExceptionHandler.java
 ├── config/         # Configuration classes
-│   └── SecurityConfig.java
+│   ├── SecurityConfig.java
+│   └── DataInitializer.java
 ├── security/       # Security components
 │   ├── JwtService.java
 │   ├── JwtAuthenticationFilter.java
 │   └── CustomUserDetailsService.java
 └── enums/          # Enumerations
     ├── Role.java
-    └── OrderStatus.java
+    ├── OrderStatus.java
+    └── StockStatus.java
 ```
 
 ## Architecture Overview
@@ -469,13 +613,33 @@ The application follows a clean layered architecture:
 - Validation errors handled with detailed field-level messages
 - HTTP status codes follow REST best practices
 
+### Admin Module (Phase 7)
+- **Admin Dashboard**: Comprehensive statistics with revenue calculations (excluding cancelled orders)
+- **Admin Product Management**: Full CRUD operations for products under admin control
+- **Admin Category Management**: Category management with deletion protection for categories with products
+- **Admin User Management**: User role management with last-admin protection to prevent accidental admin removal
+- **Admin Order Management**: Complete order access and status management with transition validation
+- **Admin Inventory Management**: Stock monitoring with configurable low-stock threshold and direct inventory updates
+- **Stock Status Classification**: Products classified as IN_STOCK, LOW_STOCK, or OUT_OF_STOCK based on configurable threshold
+- **Role-Based Authorization**: All admin endpoints require ROLE_ADMIN, preventing customer access
+- **Security Model**: Preserves existing JWT authentication and authorization, extends with admin-specific permissions
+- **Configuration**: Low-stock threshold configurable via application.properties
+- **Revenue Calculation**: Only DELIVERED orders contribute to revenue; CANCELLED orders are excluded
+- **Admin Controllers**: Separate controllers for dashboard, products, categories, users, orders, and inventory
+- **Admin Services**: Dedicated services for dashboard statistics and inventory management
+- **Category Deletion Safety**: Prevents deletion of categories that have products assigned
+- **Last Admin Protection**: Prevents removal of the last administrator to ensure system administration access
+- **Inventory Validation**: Prevents negative inventory quantities through validation
+- **Admin-Specific DTOs**: AdminUserResponse, AdminOrderResponse, InventoryResponse, and InventoryUpdateRequest
+- **Exception Handling**: LastAdminException, CategoryInUseException, InvalidInventoryQuantityException
+
 ## Next Phases
 - ~~Phase 1: Initial Project Setup and Configuration~~ ✅ COMPLETED
 - ~~Phase 2: Product and Category Management~~ ✅ COMPLETED
 - ~~Phase 3: User Registration and Login~~ ✅ COMPLETED
 - ~~Phase 4: JWT Authentication and Authorization~~ ✅ COMPLETED
 - ~~Phase 5: Shopping Cart Management~~ ✅ COMPLETED
-- Phase 6: Order Management
-- Phase 7: Payment Integration
-- Phase 8: Admin Functionality
+- ~~Phase 6: Order Management + Checkout + Inventory Transactions~~ ✅ COMPLETED
+- ~~Phase 7: Admin Module & Administration APIs~~ ✅ COMPLETED
+- Phase 8: Payment Integration
 - Phase 9: Frontend Development

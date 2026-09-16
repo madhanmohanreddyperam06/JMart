@@ -1,9 +1,7 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.dto.OrderResponse;
-import com.ecommerce.ecommerce.dto.UpdateOrderStatusRequest;
 import com.ecommerce.ecommerce.service.OrderService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,33 +44,6 @@ public class OrderController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId) {
         OrderResponse orderResponse = orderService.cancelOrder(orderId);
-        return ResponseEntity.ok(orderResponse);
-    }
-}
-
-@RestController
-@RequestMapping("/api/admin/orders")
-class AdminOrderController {
-
-    private final OrderService orderService;
-
-    public AdminOrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<OrderResponse>> getAllOrders() {
-        List<OrderResponse> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @PutMapping("/{orderId}/status")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<OrderResponse> updateOrderStatus(
-            @PathVariable Long orderId,
-            @Valid @RequestBody UpdateOrderStatusRequest request) {
-        OrderResponse orderResponse = orderService.updateOrderStatus(orderId, request);
         return ResponseEntity.ok(orderResponse);
     }
 }

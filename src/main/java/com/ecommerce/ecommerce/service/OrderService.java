@@ -2,7 +2,6 @@ package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.dto.OrderItemResponse;
 import com.ecommerce.ecommerce.dto.OrderResponse;
-import com.ecommerce.ecommerce.dto.UpdateOrderStatusRequest;
 import com.ecommerce.ecommerce.entity.Cart;
 import com.ecommerce.ecommerce.entity.CartItem;
 import com.ecommerce.ecommerce.entity.Order;
@@ -10,13 +9,11 @@ import com.ecommerce.ecommerce.entity.OrderItem;
 import com.ecommerce.ecommerce.entity.Product;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.enums.OrderStatus;
-import com.ecommerce.ecommerce.enums.Role;
 import com.ecommerce.ecommerce.exception.EmptyCartException;
 import com.ecommerce.ecommerce.exception.InsufficientStockException;
 import com.ecommerce.ecommerce.exception.InvalidOrderStatusException;
 import com.ecommerce.ecommerce.exception.OrderNotFoundException;
 import com.ecommerce.ecommerce.exception.ProductNotFoundException;
-import com.ecommerce.ecommerce.exception.UnauthorizedAccessException;
 import com.ecommerce.ecommerce.repository.CartItemRepository;
 import com.ecommerce.ecommerce.repository.CartRepository;
 import com.ecommerce.ecommerce.repository.OrderItemRepository;
@@ -139,6 +136,7 @@ public class OrderService {
             );
         }
 
+        // Customer cancellation restores inventory transactionally
         for (OrderItem orderItem : order.getItems()) {
             Product product = productRepository.findById(orderItem.getProduct().getId())
                     .orElseThrow(() -> new ProductNotFoundException("Product not found: " + orderItem.getProduct().getId()));
@@ -150,50 +148,6 @@ public class OrderService {
         orderRepository.save(order);
 
         return mapToOrderResponse(order);
-    }
-
-    public List<OrderResponse> getAllOrders() {
-        User currentUser = getCurrentUser();
-        if (currentUser.getRole() != Role.ADMIN) {
-            throw new UnauthorizedAccessException("Only admins can view all orders");
-        }
-        List<Order> orders = orderRepository.findAll();
-        return orders.stream()
-                .map(this::mapToOrderResponse)
-                .collect(Collectors.toList());
-    }
-
-    public OrderResponse updateOrderStatus(Long orderId, UpdateOrderStatusRequest request) {
-        User currentUser = getCurrentUser();
-        if (currentUser.getRole() != Role.ADMIN) {
-            throw new UnauthorizedAccessException("Only admins can update order status");
-        }
-
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
-
-        OrderStatus newStatus = request.getStatus();
-        OrderStatus currentStatus = order.getStatus();
-
-        if (!isValidStatusTransition(currentStatus, newStatus)) {
-            throw new InvalidOrderStatusException(
-                "Invalid status transition from " + currentStatus + " to " + newStatus
-            );
-        }
-
-        order.setStatus(newStatus);
-        orderRepository.save(order);
-
-        return mapToOrderResponse(order);
-    }
-
-    private boolean isValidStatusTransition(OrderStatus current, OrderStatus newStatus) {
-        return switch (current) {
-            case PLACED -> newStatus == OrderStatus.CONFIRMED || newStatus == OrderStatus.CANCELLED;
-            case CONFIRMED -> newStatus == OrderStatus.SHIPPED;
-            case SHIPPED -> newStatus == OrderStatus.DELIVERED;
-            case DELIVERED, CANCELLED -> false;
-        };
     }
 
     private User getCurrentUser() {
