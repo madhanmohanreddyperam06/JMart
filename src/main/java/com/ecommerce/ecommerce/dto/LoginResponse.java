@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.dto;
 import com.ecommerce.ecommerce.enums.Role;
 
 public class LoginResponse {
+    private String token;
     private Long userId;
     private String name;
     private String email;
@@ -12,12 +13,21 @@ public class LoginResponse {
     public LoginResponse() {
     }
 
-    public LoginResponse(Long userId, String name, String email, Role role, String message) {
+    public LoginResponse(String token, Long userId, String name, String email, Role role, String message) {
+        this.token = token;
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.role = role;
         this.message = message;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Long getUserId() {

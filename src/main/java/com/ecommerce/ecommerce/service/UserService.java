@@ -11,6 +11,7 @@ import com.ecommerce.ecommerce.exception.DuplicateEmailException;
 import com.ecommerce.ecommerce.exception.InvalidCredentialsException;
 import com.ecommerce.ecommerce.exception.UserNotFoundException;
 import com.ecommerce.ecommerce.repository.UserRepository;
+import com.ecommerce.ecommerce.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,10 +22,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public UserResponse registerUser(RegisterRequest registerRequest) {
@@ -56,7 +59,10 @@ public class UserService {
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
+        String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+
         return new LoginResponse(
+                token,
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
