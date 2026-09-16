@@ -8,6 +8,7 @@ A production-style E-Commerce Management System built with Java and Spring Boot.
 - **Spring Boot 3.2.0**
 - **Spring Web**
 - **Spring Data JPA**
+- **Spring Security** (for password encoding)
 - **Hibernate**
 - **MySQL**
 - **Maven**
@@ -15,6 +16,24 @@ A production-style E-Commerce Management System built with Java and Spring Boot.
 - **Lombok**
 
 ## Current Development Phase
+**Phase 3: User Registration and Login** ✅ COMPLETED
+
+This phase includes:
+- User entity with BCrypt password hashing
+- Role enum (CUSTOMER, ADMIN)
+- User repository with email lookup methods
+- Registration and login DTOs with validation
+- User response DTOs (password excluded)
+- Custom exceptions for user-related errors
+- Minimal SecurityConfig for PasswordEncoder bean
+- User service with registration and login logic
+- Auth controller with register and login endpoints
+- User controller with get and update endpoints
+- Email normalization to lowercase
+- Automatic role assignment (CUSTOMER) for registration
+- Password security with BCrypt hashing
+- Global exception handler updates
+
 **Phase 2: Product and Category Management** ✅ COMPLETED
 
 This phase includes:
@@ -85,6 +104,14 @@ Once the application starts:
 ### Health Check
 - `GET /api/health` - Check if the API is running
 
+### Authentication Endpoints
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login with email and password
+
+### User Endpoints
+- `GET /api/users/{id}` - Get user by ID
+- `PUT /api/users/{id}` - Update user information
+
 ### Category Endpoints
 - `POST /api/categories` - Create a new category
 - `GET /api/categories` - Get all categories
@@ -104,6 +131,29 @@ Once the application starts:
 - `GET /api/products/category/{categoryId}` - Find products by category
 
 ## Example API Usage
+
+### Register a User
+```bash
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Madhan",
+    "email": "madhan@gmail.com",
+    "password": "Password123",
+    "phone": "9876543210",
+    "address": "India"
+  }'
+```
+
+### Login
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "madhan@gmail.com",
+    "password": "Password123"
+  }'
+```
 
 ### Create a Category
 ```bash
@@ -142,29 +192,45 @@ src/main/java/com/ecommerce/ecommerce/
 ├── controller/     # REST API controllers
 │   ├── HealthController.java
 │   ├── CategoryController.java
-│   └── ProductController.java
+│   ├── ProductController.java
+│   ├── AuthController.java
+│   └── UserController.java
 ├── service/        # Business logic layer
 │   ├── CategoryService.java
-│   └── ProductService.java
+│   ├── ProductService.java
+│   └── UserService.java
 ├── repository/     # Data access layer
 │   ├── CategoryRepository.java
-│   └── ProductRepository.java
+│   ├── ProductRepository.java
+│   └── UserRepository.java
 ├── entity/         # JPA entities
 │   ├── Category.java
-│   └── Product.java
+│   ├── Product.java
+│   └── User.java
 ├── dto/            # Data Transfer Objects
 │   ├── CategoryRequest.java
 │   ├── CategoryResponse.java
 │   ├── ProductRequest.java
-│   └── ProductResponse.java
+│   ├── ProductResponse.java
+│   ├── RegisterRequest.java
+│   ├── LoginRequest.java
+│   ├── UserResponse.java
+│   ├── LoginResponse.java
+│   └── UpdateUserRequest.java
 ├── exception/      # Custom exceptions
 │   ├── CategoryNotFoundException.java
 │   ├── ProductNotFoundException.java
 │   ├── DuplicateCategoryException.java
+│   ├── UserNotFoundException.java
+│   ├── DuplicateEmailException.java
+│   ├── InvalidCredentialsException.java
 │   ├── ErrorResponse.java
 │   ├── ValidationErrorResponse.java
 │   └── GlobalExceptionHandler.java
-└── config/         # Configuration classes
+├── config/         # Configuration classes
+│   └── SecurityConfig.java
+└── enums/          # Enumerations
+    └── Role.java
 ```
 
 ## Architecture Overview
@@ -183,6 +249,15 @@ The application follows a clean layered architecture:
 - **Product to Category**: Many-to-One relationship
 - Cascade operations configured for data integrity
 - JSON serialization handled to prevent infinite recursion
+
+### User Management (Phase 3)
+- **User Entity**: Contains user information with BCrypt password hashing
+- **Roles**: CUSTOMER and ADMIN roles
+- **Registration**: Automatically assigns CUSTOMER role
+- **Password Security**: BCrypt encoding for secure password storage
+- **Email Normalization**: Emails are converted to lowercase for consistency
+- **Password Protection**: Passwords never exposed in API responses
+- **Authentication**: Basic login functionality (JWT to be added in Phase 4)
 
 ### Error Handling
 - Custom exceptions for specific business errors
