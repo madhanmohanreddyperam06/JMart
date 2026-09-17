@@ -1,0 +1,924 @@
+/* Authentication Pages Styles */
+
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    padding: 2rem 1rem;
+}
+
+.auth-card {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-xl);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.auth-form .form-group {
+    margin-bottom: 0;
+}
+
+.auth-form label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.auth-form input {
+    padding: 0.875rem;
+    font-size: 1rem;
+}
+
+.auth-form button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.auth-footer p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.auth-footer a {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.auth-loading .spinner {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+}
+
+/* Validation Styles */
+input.invalid {
+    border-color: var(--error-color);
+}
+
+input.valid {
+    border-color: var(--success-color);
+}
+
+.form-hint {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-top: 0.25rem;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.password-strength-bar {
+    height: 4px;
+    background-color: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.password-strength-fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.password-strength-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.password-strength-weak .password-strength-fill {
+    width: 33%;
+    background-color: var(--error-color);
+}
+
+.password-strength-medium .password-strength-fill {
+    width: 66%;
+    background-color: var(--accent-color);
+}
+
+.password-strength-strong .password-strength-fill {
+    width: 100%;
+    background-color: var(--success-color);
+}
+
+/* Success/Error States in Auth Form */
+.auth-success {
+    background-color: #f0fff4;
+    color: var(--success-color);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #c6f6d5;
+}
+
+.auth-error {
+    background-color: #fff5f5;
+    color: var(--error-color);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #fed7d7;
+}
+
+/* Checkbox Styles */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* Remember Me & Forgot Password */
+.auth-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.forgot-password {
+    font-size: 0.875rem;
+    color: var(--primary-color);
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Profile Page Styles */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.profile-card {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--secondary-color);
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--secondary-color);
+}
+
+.profile-avatar-placeholder {
+    font-size: 2.5rem;
+}
+
+.profile-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-role {
+    margin-top: 0.5rem;
+}
+
+.role-badge {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.profile-section {
+    padding: 2rem;
+}
+
+.profile-section h3 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.profile-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-info-item label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-info-value {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background-color: var(--gray-100);
+    border-top: 1px solid var(--border-color);
+}
+
+.profile-actions .btn {
+    flex: 1;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+    color: var(--error-color);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Responsive Design for Profile */
+@media (max-width: 767px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .profile-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .modal-content {
+        max-width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+/* Admin Dashboard Styles */
+.admin-dashboard {
+    padding: 2rem 0;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-100);
+    border-radius: 8px;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.dashboard-section {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+}
+
+.dashboard-section h2 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.quick-actions .btn {
+    padding: 1rem;
+    font-size: 0.875rem;
+}
+
+.recent-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--gray-100);
+    border-radius: 6px;
+}
+
+.activity-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-color);
+    border-radius: 6px;
+}
+
+.activity-info {
+    flex: 1;
+}
+
+.activity-text {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.activity-time {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Responsive Design for Admin Dashboard */
+@media (max-width: 991px) {
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+
+    .quick-actions .btn {
+        padding: 0.875rem;
+    }
+}
+
+/* Admin Products Styles */
+.admin-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.admin-products-table {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.admin-product-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.admin-product-brand {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.stock-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.stock-ok {
+    background-color: #f0fff4;
+    color: var(--success-color);
+}
+
+.stock-low {
+    background-color: #fffaf0;
+    color: var(--accent-color);
+}
+
+.stock-out {
+    background-color: #fff5f5;
+    color: var(--error-color);
+}
+
+/* Responsive Design for Admin Products */
+@media (max-width: 767px) {
+    .admin-header-actions {
+        justify-content: stretch;
+    }
+
+    .admin-header-actions .btn {
+        width: 100%;
+    }
+
+    .admin-products-table {
+        overflow-x: auto;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Admin Orders Styles */
+.admin-orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.admin-order-card {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.admin-order-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.admin-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--gray-100);
+}
+
+.admin-order-info h3 {
+    font-size: 1.125rem;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.admin-order-date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.admin-order-user {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+.admin-order-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.admin-order-items {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.admin-order-item:last-child {
+    border-bottom: none;
+}
+
+.admin-item-info {
+    flex: 1;
+}
+
+.admin-item-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.admin-item-quantity {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.admin-item-price {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.admin-order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    background-color: var(--gray-100);
+}
+
+.admin-order-total {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-order-total-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.admin-order-total-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.admin-order-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Responsive Design for Admin Orders */
+@media (max-width: 767px) {
+    .admin-order-header {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .admin-order-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .admin-order-actions {
+        flex-direction: column;
+    }
+
+    .admin-order-actions button {
+        width: 100%;
+    }
+}
+
+/* Admin Users Styles */
+.admin-users-table {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.admin-user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.admin-user-phone {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.role-customer {
+    background-color: var(--gray-200);
+    color: var(--text-secondary);
+}
+
+.role-admin {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* Responsive Design for Admin Users */
+@media (max-width: 767px) {
+    .admin-users-table {
+        overflow-x: auto;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Admin Inventory Styles */
+.inventory-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.inventory-tab {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: -2px;
+}
+
+.inventory-tab:hover {
+    color: var(--primary-color);
+}
+
+.inventory-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.admin-inventory-table {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.status-in-stock {
+    background-color: #f0fff4;
+    color: var(--success-color);
+}
+
+.status-low-stock {
+    background-color: #fffaf0;
+    color: var(--accent-color);
+}
+
+.status-out-of-stock {
+    background-color: #fff5f5;
+    color: var(--error-color);
+}
+
+/* Responsive Design for Admin Inventory */
+@media (max-width: 767px) {
+    .inventory-tabs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .inventory-tab {
+        padding: 0.5rem 1rem;
+        text-align: center;
+    }
+
+    .admin-inventory-table {
+        overflow-x: auto;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+    }
+}

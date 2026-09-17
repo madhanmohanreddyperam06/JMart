@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Users - E-Commerce Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">E-Commerce Platform</div>
+            <nav>
+                <ul id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html">Products</a></li>
+                    <li><a href="admin-dashboard.html">Dashboard</a></li>
+                    <li><a href="admin-products.html">Products</a></li>
+                    <li><a href="admin-orders.html">Orders</a></li>
+                    <li><a href="admin-users.html">Users</a></li>
+                    <li><a href="admin-inventory.html">Inventory</a></li>
+                    <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="products-header">
+            <h1>Manage Users</h1>
+            <p>View and manage user accounts</p>
+        </div>
+
+        <div id="usersError" class="message message-error hidden"></div>
+
+        <div id="usersContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading users...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/admin-users.js"></script>
+</body>
+</html>

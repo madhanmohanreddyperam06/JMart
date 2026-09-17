@@ -64,6 +64,7 @@ public class AdminOrderService {
     // Reuse existing Phase 6 status transition logic
     private boolean isValidStatusTransition(OrderStatus current, OrderStatus newStatus) {
         return switch (current) {
+            case PAYMENT_PENDING -> newStatus == OrderStatus.PLACED || newStatus == OrderStatus.CANCELLED;
             case PLACED -> newStatus == OrderStatus.CONFIRMED || newStatus == OrderStatus.CANCELLED;
             case CONFIRMED -> newStatus == OrderStatus.SHIPPED;
             case SHIPPED -> newStatus == OrderStatus.DELIVERED;

@@ -17,6 +17,27 @@ A production-style E-Commerce Management System built with Java and Spring Boot.
 - **JWT (JJWT)** - for token-based authentication
 
 ## Current Development Phase
+**Phase 8: Payment Integration** ✅ COMPLETED
+
+This phase includes:
+- Razorpay payment gateway integration in TEST/SANDBOX mode
+- Payment entity with comprehensive payment tracking
+- PaymentStatus enum (CREATED, PENDING, SUCCESS, FAILED, CANCELLED)
+- PaymentGateway abstraction layer for clean architecture
+- RazorpayPaymentGateway implementation with signature verification
+- Payment order creation API with server-side amount validation
+- Payment verification API with Razorpay signature validation
+- Payment status retrieval API for order payment tracking
+- Admin payment management endpoints
+- PAYMENT_PENDING order status for pre-payment state
+- Modified checkout flow to defer inventory deduction until payment success
+- Payment idempotency to prevent duplicate payments
+- Payment ownership security checks
+- BigDecimal precision for monetary calculations
+- Environment variable configuration for Razorpay credentials
+- Transaction-safe payment processing
+- Comprehensive payment exception handling
+
 **Phase 7: Admin Module & Administration APIs** ✅ COMPLETED
 
 This phase includes:
@@ -133,6 +154,42 @@ $env:DB_PASSWORD="your_password"
 5. Variable value: your MySQL password
 6. Click OK to save
 
+## Razorpay Configuration (Phase 8)
+
+### Prerequisites
+- Razorpay account with TEST/SANDBOX mode enabled
+- Razorpay API Key ID and Key Secret from test mode
+
+### Environment Variable Setup
+Set the Razorpay credentials as environment variables:
+
+**Windows (Command Prompt):**
+```cmd
+set RAZORPAY_KEY_ID=your_test_key_id
+set RAZORPAY_KEY_SECRET=your_test_key_secret
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:RAZORPAY_KEY_ID="your_test_key_id"
+$env:RAZORPAY_KEY_SECRET="your_test_key_secret"
+```
+
+**Windows (System Environment Variable - Permanent):**
+1. Right-click "This PC" → Properties → Advanced system settings
+2. Click "Environment Variables"
+3. Under "User variables" or "System variables", click "New"
+4. Variable name: `RAZORPAY_KEY_ID`, Variable value: your test key ID
+5. Variable name: `RAZORPAY_KEY_SECRET`, Variable value: your test key secret
+6. Click OK to save
+
+### Important Security Notes
+- Only use TEST/SANDBOX credentials from Razorpay
+- Never use production credentials in development
+- Never commit actual credentials to source control
+- Credentials are stored in environment variables only
+- The application uses environment variable placeholders in application.properties
+
 ## How to Run the Application
 
 ### Using Maven
@@ -173,10 +230,10 @@ Once the application starts:
 - `DELETE /api/cart` - Clear all items from cart
 
 ### Order Endpoints
-- `POST /api/orders/checkout` - Process checkout from current user's cart
+- `POST /api/orders/checkout` - Process checkout from current user's cart (creates PAYMENT_PENDING order)
 - `GET /api/orders` - Get current user's order history
 - `GET /api/orders/{orderId}` - Get specific order details
-- `PUT /api/orders/{orderId}/cancel` - Cancel an order (PLACED status only)
+- `PUT /api/orders/{orderId}/cancel` - Cancel an order (PLACED or PAYMENT_PENDING status only)
 
 ### Admin Product Endpoints
 - `POST /api/admin/products` - Create a new product (ADMIN only)
@@ -211,6 +268,15 @@ Once the application starts:
 - `GET /api/admin/users` - Get all users (ADMIN only)
 - `GET /api/admin/users/{id}` - Get specific user details (ADMIN only)
 - `PUT /api/admin/users/{userId}/role` - Update user role (ADMIN only)
+
+### Payment Endpoints
+- `POST /api/payments/create-order` - Create payment order for existing order (CUSTOMER only)
+- `POST /api/payments/verify` - Verify payment signature and complete payment (CUSTOMER only)
+- `GET /api/payments/order/{orderId}` - Get payment status for order (CUSTOMER only)
+
+### Admin Payment Endpoints
+- `GET /api/admin/payments` - Get all payments (ADMIN only)
+- `GET /api/admin/payments/{paymentId}` - Get specific payment details (ADMIN only)
 
 ### Category Endpoints
 - `POST /api/categories` - Create a new category
@@ -394,6 +460,47 @@ curl -X PUT http://localhost:8080/api/admin/users/2/role \
   -d '{
     "role": "ADMIN"
   }'
+```
+
+### Create Payment Order (CUSTOMER only)
+```bash
+curl -X POST http://localhost:8080/api/payments/create-order \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CUSTOMER_JWT_TOKEN" \
+  -d '{
+    "orderId": 1
+  }'
+```
+
+### Verify Payment (CUSTOMER only)
+```bash
+curl -X POST http://localhost:8080/api/payments/verify \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_CUSTOMER_JWT_TOKEN" \
+  -d '{
+    "orderId": 1,
+    "gatewayOrderId": "order_xxxxx",
+    "gatewayPaymentId": "pay_xxxxx",
+    "signature": "xxxxx"
+  }'
+```
+
+### Get Payment Status (CUSTOMER only)
+```bash
+curl -X GET http://localhost:8080/api/payments/order/1 \
+  -H "Authorization: Bearer YOUR_CUSTOMER_JWT_TOKEN"
+```
+
+### Get All Payments (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/payments \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
+```
+
+### Get Payment Details (ADMIN only)
+```bash
+curl -X GET http://localhost:8080/api/admin/payments/1 \
+  -H "Authorization: Bearer YOUR_ADMIN_JWT_TOKEN"
 ```
 
 ### Create Product (ADMIN only)
@@ -633,6 +740,28 @@ The application follows a clean layered architecture:
 - **Admin-Specific DTOs**: AdminUserResponse, AdminOrderResponse, InventoryResponse, and InventoryUpdateRequest
 - **Exception Handling**: LastAdminException, CategoryInUseException, InvalidInventoryQuantityException
 
+### Payment Integration (Phase 8)
+- **Razorpay Integration**: Real payment gateway integration in TEST/SANDBOX mode only
+- **Payment Gateway Abstraction**: Clean architecture with PaymentGateway interface separating business logic from Razorpay-specific code
+- **Payment Entity**: Comprehensive payment tracking with order relationship, gateway identifiers, amount, currency, and status
+- **PaymentStatus Enum**: CREATED, PENDING, SUCCESS, FAILED, CANCELLED for clear payment state management
+- **Payment Order Creation**: Server-side order creation with Razorpay, amount derived from order total (never trusted from client)
+- **Payment Verification**: Razorpay signature verification using HMAC-SHA256 to ensure payment authenticity
+- **Amount Integrity**: Payment amount always derived from server-side order total, preventing client-side manipulation
+- **Currency**: Fixed to INR for this project, determined by backend configuration
+- **Payment Lifecycle**: Order created with PAYMENT_PENDING → Payment order created → Customer pays → Signature verified → Payment SUCCESS → Order PLACED → Inventory deducted
+- **Inventory Deduction**: Moved from checkout to post-payment verification to prevent stock deduction for failed payments
+- **Payment Idempotency**: Prevents duplicate payment creation for the same order; reuses existing CREATED/PENDING payments
+- **Payment Retry**: Allows retry for FAILED payments; rejects retry for SUCCESS payments
+- **Ownership Security**: Customers can only create/verify payments for their own orders
+- **Transaction Safety**: Database operations wrapped in transactions for consistency
+- **Security Configuration**: Razorpay credentials configured via environment variables, never stored in source code
+- **Admin Payment Access**: Admin endpoints for viewing all payments and payment details
+- **Exception Handling**: PaymentNotFoundException, PaymentVerificationException, PaymentAlreadyCompletedException, PaymentCreationException, InvalidPaymentStateException
+- **Amount Conversion**: Proper conversion from INR to smallest currency unit (paise) using BigDecimal for precision
+- **Signature Verification**: Uses Razorpay SDK's Utils.verifyPaymentSignature for secure signature validation
+- **Error Handling**: Comprehensive error handling with appropriate HTTP status codes
+
 ## Next Phases
 - ~~Phase 1: Initial Project Setup and Configuration~~ ✅ COMPLETED
 - ~~Phase 2: Product and Category Management~~ ✅ COMPLETED
@@ -641,5 +770,5 @@ The application follows a clean layered architecture:
 - ~~Phase 5: Shopping Cart Management~~ ✅ COMPLETED
 - ~~Phase 6: Order Management + Checkout + Inventory Transactions~~ ✅ COMPLETED
 - ~~Phase 7: Admin Module & Administration APIs~~ ✅ COMPLETED
-- Phase 8: Payment Integration
+- ~~Phase 8: Payment Integration~~ ✅ COMPLETED
 - Phase 9: Frontend Development

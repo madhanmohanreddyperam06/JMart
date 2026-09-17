@@ -3,6 +3,10 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.dto.CategoryRequest;
 import com.ecommerce.ecommerce.dto.CategoryResponse;
 import com.ecommerce.ecommerce.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/categories")
+@Tag(name = "Admin Categories", description = "Admin category management endpoints")
+@SecurityRequirement(name = "Bearer Authentication")
 public class AdminCategoryController {
 
     private final CategoryService categoryService;
@@ -23,6 +29,7 @@ public class AdminCategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Create category (Admin)", description = "Create a new category (ADMIN only)")
     public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
         CategoryResponse categoryResponse = categoryService.createCategory(categoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
@@ -30,6 +37,7 @@ public class AdminCategoryController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Get all categories (Admin)", description = "Retrieve all categories (ADMIN only)")
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
         List<CategoryResponse> categories = categoryService.getAllCategories();
         return ResponseEntity.ok(categories);
@@ -37,15 +45,17 @@ public class AdminCategoryController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
+    @Operation(summary = "Get category by ID (Admin)", description = "Retrieve a specific category by ID (ADMIN only)")
+    public ResponseEntity<CategoryResponse> getCategoryById(@Parameter(description = "Category ID") @PathVariable Long id) {
         CategoryResponse categoryResponse = categoryService.getCategoryById(id);
         return ResponseEntity.ok(categoryResponse);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update category (Admin)", description = "Update an existing category (ADMIN only)")
     public ResponseEntity<CategoryResponse> updateCategory(
-            @PathVariable Long id,
+            @Parameter(description = "Category ID") @PathVariable Long id,
             @Valid @RequestBody CategoryRequest categoryRequest) {
         CategoryResponse categoryResponse = categoryService.updateCategory(id, categoryRequest);
         return ResponseEntity.ok(categoryResponse);
@@ -53,7 +63,8 @@ public class AdminCategoryController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    @Operation(summary = "Delete category (Admin)", description = "Delete a category (ADMIN only)")
+    public ResponseEntity<Void> deleteCategory(@Parameter(description = "Category ID") @PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }

@@ -69,20 +69,13 @@ public class OrderService {
             int requestedQuantity = cartItem.getQuantity();
             if (product.getQuantity() < requestedQuantity) {
                 throw new InsufficientStockException(
-                    "Insufficient stock for product: " + product.getName() + 
+                    "Insufficient stock for product: " + product.getName() +
                     ". Only " + product.getQuantity() + " units available."
-                );
-            }
-
-            int affectedRows = productRepository.deductStock(product.getId(), requestedQuantity);
-            if (affectedRows == 0) {
-                throw new InsufficientStockException(
-                    "Insufficient stock for product: " + product.getName()
                 );
             }
         }
 
-        Order order = new Order(currentUser, BigDecimal.ZERO, OrderStatus.PLACED);
+        Order order = new Order(currentUser, BigDecimal.ZERO, OrderStatus.PAYMENT_PENDING);
         orderRepository.save(order);
 
         for (CartItem cartItem : cart.getItems()) {
@@ -130,18 +123,20 @@ public class OrderService {
         Order order = orderRepository.findByIdAndUserId(orderId, currentUser.getId())
                 .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
 
-        if (order.getStatus() != OrderStatus.PLACED) {
+        if (order.getStatus() != OrderStatus.PLACED && order.getStatus() != OrderStatus.PAYMENT_PENDING) {
             throw new InvalidOrderStatusException(
                 "Order cannot be cancelled. Current status: " + order.getStatus()
             );
         }
 
-        // Customer cancellation restores inventory transactionally
-        for (OrderItem orderItem : order.getItems()) {
-            Product product = productRepository.findById(orderItem.getProduct().getId())
-                    .orElseThrow(() -> new ProductNotFoundException("Product not found: " + orderItem.getProduct().getId()));
+        // Only restore inventory if order was PLACED (inventory already deducted)
+        if (order.getStatus() == OrderStatus.PLACED) {
+            for (OrderItem orderItem : order.getItems()) {
+                Product product = productRepository.findById(orderItem.getProduct().getId())
+                        .orElseThrow(() -> new ProductNotFoundException("Product not found: " + orderItem.getProduct().getId()));
 
-            productRepository.addStock(product.getId(), orderItem.getQuantity());
+                productRepository.addStock(product.getId(), orderItem.getQuantity());
+            }
         }
 
         order.setStatus(OrderStatus.CANCELLED);
