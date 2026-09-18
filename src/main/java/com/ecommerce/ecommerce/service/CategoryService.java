@@ -24,12 +24,13 @@ public class CategoryService {
     }
 
     public CategoryResponse createCategory(CategoryRequest categoryRequest) {
-        if (categoryRepository.existsByName(categoryRequest.getName())) {
-            throw new DuplicateCategoryException("Category already exists with name: " + categoryRequest.getName());
+        String trimmedName = categoryRequest.getName() != null ? categoryRequest.getName().trim() : "";
+        if (categoryRepository.existsByName(trimmedName)) {
+            throw new DuplicateCategoryException("Category already exists with name: " + trimmedName);
         }
 
         Category category = new Category();
-        category.setName(categoryRequest.getName());
+        category.setName(trimmedName);
 
         Category savedCategory = categoryRepository.save(category);
         return mapToResponse(savedCategory);
@@ -53,12 +54,13 @@ public class CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
 
-        if (!category.getName().equals(categoryRequest.getName()) &&
-                categoryRepository.existsByName(categoryRequest.getName())) {
-            throw new DuplicateCategoryException("Category already exists with name: " + categoryRequest.getName());
+        String trimmedName = categoryRequest.getName() != null ? categoryRequest.getName().trim() : "";
+        if (!category.getName().equalsIgnoreCase(trimmedName) &&
+                categoryRepository.existsByName(trimmedName)) {
+            throw new DuplicateCategoryException("Category already exists with name: " + trimmedName);
         }
 
-        category.setName(categoryRequest.getName());
+        category.setName(trimmedName);
         Category updatedCategory = categoryRepository.save(category);
         return mapToResponse(updatedCategory);
     }

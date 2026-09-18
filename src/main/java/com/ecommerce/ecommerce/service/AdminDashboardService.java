@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,7 +50,7 @@ public class AdminDashboardService {
 
         // Revenue: Only include orders that represent completed sales (DELIVERED)
         // CANCELLED orders are excluded from revenue calculation
-        BigDecimal totalRevenue = orderRepository.sumTotalAmountByStatusIn(OrderStatus.DELIVERED);
+        BigDecimal totalRevenue = orderRepository.sumTotalAmountByStatusIn(List.of(OrderStatus.DELIVERED));
         if (totalRevenue == null) {
             totalRevenue = BigDecimal.ZERO;
         }

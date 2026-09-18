@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="profile-avatar-placeholder">👤</div>
                         </div>
                         <div class="profile-info">
-                            <h2>${user.name}</h2>
+                            <h2>${escapeHtml(user.name)}</h2>
                             <div class="profile-role">
-                                <span class="role-badge">${user.role}</span>
+                                <span class="role-badge">${escapeHtml(user.role)}</span>
                             </div>
                         </div>
                     </div>
@@ -55,19 +55,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="profile-info-grid">
                             <div class="profile-info-item">
                                 <label>User ID</label>
-                                <div class="profile-info-value">${user.id}</div>
+                                <div class="profile-info-value">${escapeHtml(user.id)}</div>
                             </div>
                             <div class="profile-info-item">
                                 <label>Email</label>
-                                <div class="profile-info-value">${user.email}</div>
+                                <div class="profile-info-value">${escapeHtml(user.email)}</div>
                             </div>
                             <div class="profile-info-item">
                                 <label>Phone</label>
-                                <div class="profile-info-value">${user.phone || 'Not provided'}</div>
+                                <div class="profile-info-value">${escapeHtml(user.phone || 'Not provided')}</div>
                             </div>
                             <div class="profile-info-item">
                                 <label>Address</label>
-                                <div class="profile-info-value">${user.address || 'Not provided'}</div>
+                                <div class="profile-info-value">${escapeHtml(user.address || 'Not provided')}</div>
                             </div>
                             <div class="profile-info-item">
                                 <label>Member Since</label>
@@ -113,15 +113,15 @@ function openEditProfile() {
                     <form id="editProfileForm">
                         <div class="form-group">
                             <label for="editName">Name</label>
-                            <input type="text" id="editName" name="name" value="${currentUser.name}" required>
+                            <input type="text" id="editName" name="name" value="${escapeHtml(currentUser.name)}" required>
                         </div>
                         <div class="form-group">
                             <label for="editPhone">Phone</label>
-                            <input type="tel" id="editPhone" name="phone" value="${currentUser.phone || ''}">
+                            <input type="tel" id="editPhone" name="phone" value="${escapeHtml(currentUser.phone || '')}">
                         </div>
                         <div class="form-group">
                             <label for="editAddress">Address</label>
-                            <textarea id="editAddress" name="address" rows="3">${currentUser.address || ''}</textarea>
+                            <textarea id="editAddress" name="address" rows="3">${escapeHtml(currentUser.address || '')}</textarea>
                         </div>
                         <div id="editProfileError" class="message message-error hidden"></div>
                         <div class="form-actions">

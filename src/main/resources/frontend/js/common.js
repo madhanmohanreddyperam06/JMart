@@ -1,6 +1,21 @@
 // Common JavaScript Utilities
 
 /**
+ * Escape HTML to prevent Cross-Site Scripting (XSS)
+ * @param {string|number|null|undefined} unsafe
+ * @returns {string}
+ */
+function escapeHtml(unsafe) {
+    if (unsafe === null || unsafe === undefined) return '';
+    return String(unsafe)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+/**
  * Check if user is logged in
  * @returns {boolean}
  */
@@ -201,6 +216,21 @@ function showEmpty(element, message, subtext = '') {
  * Render header/navigation based on authentication state
  */
 function renderHeader() {
+    // Update profile button display and link if present
+    const profileBtn = document.getElementById('headerProfileBtn');
+    const profileText = document.querySelector('#headerProfileBtn .profile-text');
+    if (profileBtn && profileText) {
+        if (isLoggedIn()) {
+            const user = getCurrentUser();
+            const displayName = (user && user.name) ? escapeHtml(user.name.split(' ')[0]) : 'Profile';
+            profileText.textContent = displayName;
+            profileBtn.href = 'profile.html';
+        } else {
+            profileText.textContent = 'Profile';
+            profileBtn.href = 'login.html';
+        }
+    }
+
     const header = document.querySelector('header nav ul');
     if (!header) return;
 
@@ -211,7 +241,6 @@ function renderHeader() {
         if (role === 'ADMIN') {
             navItems = `
                 <li><a href="index.html">Home</a></li>
-                <li><a href="index.html">Products</a></li>
                 <li><a href="admin-dashboard.html">Dashboard</a></li>
                 <li><a href="admin-products.html">Products</a></li>
                 <li><a href="admin-orders.html">Orders</a></li>
@@ -223,9 +252,7 @@ function renderHeader() {
             navItems = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="index.html">Products</a></li>
-                <li><a href="cart.html">Cart</a></li>
                 <li><a href="orders.html">Orders</a></li>
-                <li><a href="profile.html">Profile</a></li>
                 <li><a href="#" onclick="logout(); return false;">Logout</a></li>
             `;
         }
@@ -389,12 +416,24 @@ async function updateCartCount() {
  * @param {number} count - Total cart item count
  */
 function updateCartCountDisplay(count) {
+    // Update for old header structure
     const cartLink = document.querySelector('nav a[href="cart.html"]');
     if (cartLink) {
         if (count > 0) {
             cartLink.innerHTML = `Cart <span class="cart-count-badge">${count}</span>`;
         } else {
             cartLink.textContent = 'Cart';
+        }
+    }
+    
+    // Update for new home page structure
+    const cartBadge = document.getElementById('cartBadge');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+        if (count > 0) {
+            cartBadge.style.display = 'inline-block';
+        } else {
+            cartBadge.style.display = 'none';
         }
     }
 }

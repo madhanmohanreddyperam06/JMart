@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ${order.items ? order.items.map(item => `
                             <div class="order-summary-item">
                                 <div class="order-item-info">
-                                    <div class="order-item-name">${item.productName}</div>
-                                    <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                                    <div class="order-item-name">${escapeHtml(item.productName)}</div>
+                                    <div class="order-item-quantity">Quantity: ${escapeHtml(item.quantity)}</div>
                                 </div>
                                 <div class="order-item-price">${formatCurrency(item.subtotal)}</div>
                             </div>
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="order-summary-totals">
                         <div class="order-summary-row">
                             <span class="order-summary-label">Order ID:</span>
-                            <span class="order-summary-value">#${order.orderId}</span>
+                            <span class="order-summary-value">#${escapeHtml(order.orderId)}</span>
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Order Date:</span>
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Order Status:</span>
-                            <span class="order-summary-value">${order.status}</span>
+                            <span class="order-summary-value">${escapeHtml(order.status)}</span>
                         </div>
                         <div class="order-summary-row order-summary-total">
                             <span class="order-summary-label">Total Amount:</span>
@@ -96,10 +96,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="payment-section">
                     <h2>Payment Status</h2>
                     <div class="payment-info">
-                        <p><strong>Payment ID:</strong> ${payment ? payment.paymentId : 'N/A'}</p>
-                        <p><strong>Gateway:</strong> ${payment ? payment.gateway : 'N/A'}</p>
+                        <p><strong>Payment ID:</strong> ${payment ? escapeHtml(payment.paymentId) : 'N/A'}</p>
+                        <p><strong>Gateway:</strong> ${payment ? escapeHtml(payment.gateway) : 'N/A'}</p>
                         <p><strong>Amount:</strong> ${payment ? formatCurrency(payment.amount) : 'N/A'}</p>
-                        <p><strong>Status:</strong> <span class="${isSuccess ? 'text-success' : 'text-error'}">${paymentStatus}</span></p>
+                        <p><strong>Status:</strong> <span class="${isSuccess ? 'text-success' : 'text-error'}">${escapeHtml(paymentStatus)}</span></p>
                     </div>
 
                     ${isSuccess ? `

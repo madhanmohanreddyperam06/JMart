@@ -91,27 +91,27 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderCartItemRow(item) {
         return `
-            <tr data-item-id="${item.itemId}">
+            <tr data-item-id="${escapeHtml(item.itemId)}">
                 <td>
                     <div class="cart-product-info">
                         <div class="cart-product-image">📦</div>
                         <div class="cart-product-details">
-                            <div class="cart-product-name">${item.productName}</div>
-                            <div class="cart-product-id">ID: ${item.productId}</div>
+                            <div class="cart-product-name">${escapeHtml(item.productName)}</div>
+                            <div class="cart-product-id">ID: ${escapeHtml(item.productId)}</div>
                         </div>
                     </div>
                 </td>
                 <td class="cart-price">${formatCurrency(item.price)}</td>
                 <td>
                     <div class="cart-quantity">
-                        <button class="cart-quantity-btn decrease-btn" data-item-id="${item.itemId}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                        <input type="number" class="cart-quantity-input" data-item-id="${item.itemId}" value="${item.quantity}" min="1" readonly>
-                        <button class="cart-quantity-btn increase-btn" data-item-id="${item.itemId}">+</button>
+                        <button class="cart-quantity-btn decrease-btn" data-item-id="${escapeHtml(item.itemId)}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <input type="number" class="cart-quantity-input" data-item-id="${escapeHtml(item.itemId)}" value="${escapeHtml(item.quantity)}" min="1" readonly>
+                        <button class="cart-quantity-btn increase-btn" data-item-id="${escapeHtml(item.itemId)}">+</button>
                     </div>
                 </td>
                 <td class="cart-subtotal">${formatCurrency(item.subtotal)}</td>
                 <td>
-                    <button class="cart-remove-btn" data-item-id="${item.itemId}">Remove</button>
+                    <button class="cart-remove-btn" data-item-id="${escapeHtml(item.itemId)}">Remove</button>
                 </td>
             </tr>
         `;
@@ -119,24 +119,24 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderCartItemMobile(item) {
         return `
-            <div class="cart-item-mobile" data-item-id="${item.itemId}">
+            <div class="cart-item-mobile" data-item-id="${escapeHtml(item.itemId)}">
                 <div class="cart-item-mobile-header">
                     <div class="cart-item-mobile-image">📦</div>
                     <div class="cart-item-mobile-details">
-                        <div class="cart-item-mobile-name">${item.productName}</div>
+                        <div class="cart-item-mobile-name">${escapeHtml(item.productName)}</div>
                         <div class="cart-item-mobile-price">${formatCurrency(item.price)}</div>
                     </div>
                 </div>
                 <div class="cart-item-mobile-info">
                     <div class="cart-item-mobile-quantity">
-                        <button class="cart-quantity-btn decrease-btn" data-item-id="${item.itemId}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                        <input type="number" class="cart-quantity-input" data-item-id="${item.itemId}" value="${item.quantity}" min="1" readonly>
-                        <button class="cart-quantity-btn increase-btn" data-item-id="${item.itemId}">+</button>
+                        <button class="cart-quantity-btn decrease-btn" data-item-id="${escapeHtml(item.itemId)}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <input type="number" class="cart-quantity-input" data-item-id="${escapeHtml(item.itemId)}" value="${escapeHtml(item.quantity)}" min="1" readonly>
+                        <button class="cart-quantity-btn increase-btn" data-item-id="${escapeHtml(item.itemId)}">+</button>
                     </div>
                     <div class="cart-item-mobile-subtotal">${formatCurrency(item.subtotal)}</div>
                 </div>
                 <div class="cart-item-mobile-actions">
-                    <button class="cart-remove-btn" data-item-id="${item.itemId}">Remove</button>
+                    <button class="cart-remove-btn" data-item-id="${escapeHtml(item.itemId)}">Remove</button>
                 </div>
             </div>
         `;

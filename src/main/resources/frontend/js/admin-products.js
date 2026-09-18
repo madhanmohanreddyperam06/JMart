@@ -50,24 +50,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <tbody>
                         ${products.map(product => `
                             <tr>
-                                <td>${product.id}</td>
+                                <td>${escapeHtml(product.id)}</td>
                                 <td>
-                                    <div class="admin-product-name">${product.name}</div>
-                                    <div class="admin-product-brand">${product.brand || 'N/A'}</div>
+                                    <div class="admin-product-name">${escapeHtml(product.name)}</div>
+                                    <div class="admin-product-brand">${escapeHtml(product.brand || 'N/A')}</div>
                                 </td>
-                                <td>${product.categoryName || 'N/A'}</td>
+                                <td>${escapeHtml(product.categoryName || 'N/A')}</td>
                                 <td>${formatCurrency(product.price)}</td>
                                 <td>
                                     <span class="stock-badge ${getStockClass(product.quantity)}">
-                                        ${product.quantity}
+                                        ${escapeHtml(product.quantity)}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="admin-actions">
-                                        <button class="btn btn-sm btn-secondary" onclick="openEditProductModal(${product.id})">
+                                        <button class="btn btn-sm btn-secondary" onclick="openEditProductModal(${encodeURIComponent(product.id)})">
                                             Edit
                                         </button>
-                                        <button class="btn btn-sm btn-error" onclick="deleteProduct(${product.id})">
+                                        <button class="btn btn-sm btn-error" onclick="deleteProduct(${encodeURIComponent(product.id)})">
                                             Delete
                                         </button>
                                     </div>
@@ -107,7 +107,7 @@ async function openAddProductModal() {
     try {
         const categories = await API.categories.getAll();
         const categoryOptions = categories.map(cat =>
-            `<option value="${cat.id}">${cat.name}</option>`
+            `<option value="${escapeHtml(cat.id)}">${escapeHtml(cat.name)}</option>`
         ).join('');
 
         const modalHTML = `
@@ -179,7 +179,7 @@ async function openEditProductModal(productId) {
         ]);
 
         const categoryOptions = categories.map(cat =>
-            `<option value="${cat.id}" ${cat.id === product.categoryId ? 'selected' : ''}>${cat.name}</option>`
+            `<option value="${escapeHtml(cat.id)}" ${cat.id === product.categoryId ? 'selected' : ''}>${escapeHtml(cat.name)}</option>`
         ).join('');
 
         const modalHTML = `
@@ -193,23 +193,23 @@ async function openEditProductModal(productId) {
                         <form id="productForm">
                             <div class="form-group">
                                 <label for="productName">Product Name *</label>
-                                <input type="text" id="productName" name="name" value="${product.name}" required>
+                                <input type="text" id="productName" name="name" value="${escapeHtml(product.name)}" required>
                             </div>
                             <div class="form-group">
                                 <label for="productDescription">Description</label>
-                                <textarea id="productDescription" name="description" rows="3">${product.description || ''}</textarea>
+                                <textarea id="productDescription" name="description" rows="3">${escapeHtml(product.description || '')}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="productPrice">Price *</label>
-                                <input type="number" id="productPrice" name="price" step="0.01" min="0" value="${product.price}" required>
+                                <input type="number" id="productPrice" name="price" step="0.01" min="0" value="${escapeHtml(product.price)}" required>
                             </div>
                             <div class="form-group">
                                 <label for="productQuantity">Quantity *</label>
-                                <input type="number" id="productQuantity" name="quantity" min="0" value="${product.quantity}" required>
+                                <input type="number" id="productQuantity" name="quantity" min="0" value="${escapeHtml(product.quantity)}" required>
                             </div>
                             <div class="form-group">
                                 <label for="productBrand">Brand</label>
-                                <input type="text" id="productBrand" name="brand" value="${product.brand || ''}">
+                                <input type="text" id="productBrand" name="brand" value="${escapeHtml(product.brand || '')}">
                             </div>
                             <div class="form-group">
                                 <label for="productCategory">Category *</label>

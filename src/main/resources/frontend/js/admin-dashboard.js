@@ -98,19 +98,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </div>
                         </div>
                     </div>
-
-                    <div class="dashboard-section">
-                        <h2>Recent Activity</h2>
-                        <div class="recent-activity">
-                            <div class="activity-item">
-                                <div class="activity-icon">📊</div>
-                                <div class="activity-info">
-                                    <div class="activity-text">Dashboard loaded successfully</div>
-                                    <div class="activity-time">Just now</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         `;

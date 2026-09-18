@@ -67,26 +67,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <tbody>
                         ${inventory.map(item => `
                             <tr>
-                                <td>${item.productId}</td>
+                                <td>${escapeHtml(item.productId)}</td>
                                 <td>
-                                    <div class="admin-product-name">${item.productName}</div>
-                                    <div class="admin-product-brand">${item.brand || 'N/A'}</div>
+                                    <div class="admin-product-name">${escapeHtml(item.productName)}</div>
+                                    <div class="admin-product-brand">${escapeHtml(item.brand || 'N/A')}</div>
                                 </td>
-                                <td>${item.categoryName || 'N/A'}</td>
+                                <td>${escapeHtml(item.categoryName || 'N/A')}</td>
                                 <td>${formatCurrency(item.price)}</td>
                                 <td>
                                     <span class="stock-badge ${getStockClass(item.quantity)}">
-                                        ${item.quantity}
+                                        ${escapeHtml(item.quantity)}
                                     </span>
                                 </td>
                                 <td>
                                     <span class="status-badge ${getStatusClass(item.stockStatus)}">
-                                        ${item.stockStatus}
+                                        ${escapeHtml(item.stockStatus)}
                                     </span>
                                 </td>
                                 <td>
                                     <div class="admin-actions">
-                                        <button class="btn btn-sm btn-secondary" onclick="openUpdateStockModal(${item.productId}, ${item.quantity}, '${item.productName}')">
+                                        <button class="btn btn-sm btn-secondary" onclick="openUpdateStockModal(${encodeURIComponent(item.productId)}, ${encodeURIComponent(item.quantity)}, '${escapeHtml(item.productName).replace(/'/g, "\\'")}')">
                                             Update Stock
                                         </button>
                                     </div>
@@ -157,8 +157,8 @@ function openUpdateStockModal(productId, currentQuantity, productName) {
                     <button class="modal-close" onclick="closeStockModal()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-3">Update stock for <strong>${productName}</strong></p>
-                    <p class="mb-3">Current stock: <strong>${currentQuantity}</strong></p>
+                    <p class="mb-3">Update stock for <strong>${escapeHtml(productName)}</strong></p>
+                    <p class="mb-3">Current stock: <strong>${escapeHtml(currentQuantity)}</strong></p>
                     <form id="stockForm">
                         <div class="form-group">
                             <label for="newQuantity">New Quantity</label>

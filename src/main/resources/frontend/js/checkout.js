@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ${cart.items.map(item => `
                             <div class="order-summary-item">
                                 <div class="order-item-info">
-                                    <div class="order-item-name">${item.productName}</div>
-                                    <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                                    <div class="order-item-name">${escapeHtml(item.productName)}</div>
+                                    <div class="order-item-quantity">Quantity: ${escapeHtml(item.quantity)}</div>
                                 </div>
                                 <div class="order-item-price">${formatCurrency(item.subtotal)}</div>
                             </div>
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="payment-section">
                     <h2>Payment</h2>
                     <div class="payment-info">
-                        <p><strong>Order ID:</strong> #${order.orderId}</p>
+                        <p><strong>Order ID:</strong> #${escapeHtml(order.orderId)}</p>
                         <p><strong>Total Amount:</strong> ${formatCurrency(order.totalAmount)}</p>
                         <p><strong>Payment Method:</strong> Razorpay (Secure)</p>
                     </div>

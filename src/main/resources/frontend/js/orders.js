@@ -51,11 +51,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="order-card">
                 <div class="order-card-header">
                     <div class="order-card-info">
-                        <h3>Order #${order.orderId}</h3>
+                        <h3>Order #${escapeHtml(order.orderId)}</h3>
                         <div class="order-card-date">${formatDate(order.createdAt)}</div>
                     </div>
                     <div class="order-card-status ${statusClass}">
-                        ${statusText}
+                        ${escapeHtml(statusText)}
                     </div>
                 </div>
 
@@ -63,8 +63,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${order.items ? order.items.map(item => `
                         <div class="order-card-item">
                             <div class="order-item-info">
-                                <div class="order-item-name">${item.productName}</div>
-                                <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                                <div class="order-item-name">${escapeHtml(item.productName)}</div>
+                                <div class="order-item-quantity">Quantity: ${escapeHtml(item.quantity)}</div>
                             </div>
                             <div class="order-item-price">${formatCurrency(item.subtotal)}</div>
                         </div>
@@ -77,11 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <span class="order-card-total-value">${formatCurrency(order.totalAmount)}</span>
                     </div>
                     <div class="order-card-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${order.orderId})">
+                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${encodeURIComponent(order.orderId)})">
                             View Details
                         </button>
                         ${order.status === 'PLACED' || order.status === 'PAYMENT_PENDING' ? `
-                            <button class="btn btn-error btn-sm" onclick="cancelOrder(${order.orderId})">
+                            <button class="btn btn-error btn-sm" onclick="cancelOrder(${encodeURIComponent(order.orderId)})">
                                 Cancel Order
                             </button>
                         ` : ''}

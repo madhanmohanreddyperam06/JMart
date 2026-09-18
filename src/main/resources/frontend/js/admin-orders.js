@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="admin-order-card">
                 <div class="admin-order-header">
                     <div class="admin-order-info">
-                        <h3>Order #${order.orderId}</h3>
+                        <h3>Order #${escapeHtml(order.orderId)}</h3>
                         <div class="admin-order-date">${formatDate(order.createdAt)}</div>
-                        <div class="admin-order-user">User ID: ${order.userId}</div>
+                        <div class="admin-order-user">User ID: ${escapeHtml(order.userId)}</div>
                     </div>
                     <div class="admin-order-status ${statusClass}">
-                        ${statusText}
+                        ${escapeHtml(statusText)}
                     </div>
                 </div>
 
@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${order.items ? order.items.map(item => `
                         <div class="admin-order-item">
                             <div class="admin-item-info">
-                                <div class="admin-item-name">${item.productName}</div>
-                                <div class="admin-item-quantity">Quantity: ${item.quantity}</div>
+                                <div class="admin-item-name">${escapeHtml(item.productName)}</div>
+                                <div class="admin-item-quantity">Quantity: ${escapeHtml(item.quantity)}</div>
                             </div>
                             <div class="admin-item-price">${formatCurrency(item.subtotal)}</div>
                         </div>
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <span class="admin-order-total-value">${formatCurrency(order.totalAmount)}</span>
                     </div>
                     <div class="admin-order-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="openStatusModal(${order.orderId}, '${order.status}')">
+                        <button class="btn btn-secondary btn-sm" onclick="openStatusModal(${encodeURIComponent(order.orderId)}, '${encodeURIComponent(order.status)}')">
                             Update Status
                         </button>
                     </div>

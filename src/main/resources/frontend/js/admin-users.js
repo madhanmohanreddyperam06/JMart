@@ -50,21 +50,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <tbody>
                         ${users.map(user => `
                             <tr>
-                                <td>${user.id}</td>
+                                <td>${escapeHtml(user.id)}</td>
                                 <td>
-                                    <div class="admin-user-name">${user.name}</div>
-                                    <div class="admin-user-phone">${user.phone || 'N/A'}</div>
+                                    <div class="admin-user-name">${escapeHtml(user.name)}</div>
+                                    <div class="admin-user-phone">${escapeHtml(user.phone || 'N/A')}</div>
                                 </td>
-                                <td>${user.email}</td>
+                                <td>${escapeHtml(user.email)}</td>
                                 <td>
                                     <span class="role-badge ${user.role === 'ADMIN' ? 'role-admin' : 'role-customer'}">
-                                        ${user.role}
+                                        ${escapeHtml(user.role)}
                                     </span>
                                 </td>
                                 <td>${formatDate(user.createdAt)}</td>
                                 <td>
                                     <div class="admin-actions">
-                                        <button class="btn btn-sm btn-secondary" onclick="openRoleModal(${user.id}, '${user.role}', '${user.name}')">
+                                        <button class="btn btn-sm btn-secondary" onclick="openRoleModal(${encodeURIComponent(user.id)}, '${encodeURIComponent(user.role)}', '${escapeHtml(user.name).replace(/'/g, "\\'")}')">
                                             Change Role
                                         </button>
                                     </div>
@@ -100,7 +100,7 @@ function openRoleModal(userId, currentRole, userName) {
                     <button class="modal-close" onclick="closeRoleModal()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-3">Change role for <strong>${userName}</strong></p>
+                    <p class="mb-3">Change role for <strong>${escapeHtml(userName)}</strong></p>
                     <form id="roleForm">
                         <div class="form-group">
                             <label for="userRole">Select Role</label>

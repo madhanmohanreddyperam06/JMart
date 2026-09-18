@@ -105,6 +105,11 @@ mvn spring-boot:run
 java -jar target/ecommerce-1.0.0.jar
 ```
 
+### Run Backend Server
+```bash
+$env:DB_PASSWORD="Madhanreddy@123"; .\mvnw.cmd spring-boot:run
+```
+
 ## 🌐 Access Points
 
 Once the application starts successfully:

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - JMart</title>
+    <link rel="icon" type="image/svg+xml" href="assets/Icons/j-solid-full.svg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -12,6 +13,9 @@
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
+                <div class="auth-logo">
+                    <span class="logo-j">J</span><span class="logo-mart">Mart</span>
+                </div>
                 <h1>Create Account</h1>
                 <p>Join us today</p>
             </div>
@@ -55,33 +59,65 @@
                         minlength="8"
                         maxlength="100"
                     >
-                    <div class="password-strength">
-                        <div class="password-strength-bar">
-                            <div class="password-strength-fill" id="passwordStrengthFill"></div>
-                        </div>
-                        <div class="password-strength-text" id="passwordStrengthText"></div>
+                    <div class="password-strength-indicator">
+                        <span class="strength-text" id="passwordStrengthText">Password strength: </span>
+                        <span class="strength-value" id="passwordStrengthValue">-</span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone (Optional)</label>
+                    <label for="confirmPassword">Confirm Password</label>
                     <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        placeholder="Enter your phone number"
-                        autocomplete="tel"
-                        maxlength="20"
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                        autocomplete="new-password"
+                        minlength="8"
+                        maxlength="100"
                     >
+                    <div class="password-match-indicator">
+                        <span class="match-text" id="passwordMatchText">Passwords match: </span>
+                        <span class="match-value" id="passwordMatchValue">-</span>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="address">Address (Optional)</label>
+                    <label for="mobile">Mobile</label>
+                    <div class="mobile-input-container">
+                        <select id="countryCode" name="countryCode" class="country-code-select">
+                            <option value="+91">+91 (India)</option>
+                            <option value="+1">+1 (USA)</option>
+                            <option value="+44">+44 (UK)</option>
+                            <option value="+61">+61 (Australia)</option>
+                            <option value="+81">+81 (Japan)</option>
+                            <option value="+86">+86 (China)</option>
+                            <option value="+49">+49 (Germany)</option>
+                            <option value="+33">+33 (France)</option>
+                        </select>
+                        <input
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            placeholder="Enter 10-digit mobile number"
+                            required
+                            autocomplete="tel"
+                            maxlength="10"
+                            pattern="[0-9]{10}"
+                        >
+                    </div>
+                    <div class="mobile-validation-text" id="mobileValidationText"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
                     <textarea
                         id="address"
                         name="address"
                         placeholder="Enter your address"
                         rows="3"
+                        required
                         maxlength="255"
                     ></textarea>
                 </div>

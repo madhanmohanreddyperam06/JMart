@@ -4,26 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - JMart</title>
+    <link rel="icon" type="image/svg+xml" href="assets/Icons/j-solid-full.svg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <span class="logo-j">J</span><span class="logo-mart">Mart</span>
+    <header class="home-header">
+        <div class="header-top">
+            <div class="header-container">
+                <div class="logo-section">
+                    <button class="logo-btn">
+                        <span class="logo-j">J</span><span class="logo-mart">Mart</span>
+                    </button>
+                </div>
             </div>
-            <nav>
-                <ul id="navLinks">
-                    <li><a href="landing.html">Home</a></li>
-                    <li><a href="index.html">Products</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="orders.html">Orders</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="login.html" id="loginLink">Login</a></li>
-                </ul>
-            </nav>
+        </div>
+        
+        <div class="header-main">
+            <div class="header-container">
+                <div class="search-section">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search for Products, Brands and More">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                
+                <div class="user-actions">
+                    <div class="user-section">
+                        <span class="user-icon">👤</span>
+                        <span class="user-name">Madhan</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="more-section">
+                        <span class="more-text">More</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="cart-section">
+                        <a href="cart.html" class="cart-link">
+                            <span class="cart-icon">🛒</span>
+                            <span class="cart-badge" id="cartBadge">0</span>
+                            <span class="cart-text">Cart</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-nav">
+            <div class="header-container">
+                <div class="category-scroll">
+                    <button class="category-item active">
+                        <span class="category-icon">🎯</span>
+                        <span class="category-name">For You</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">👔</span>
+                        <span class="category-name">Fashion</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">📱</span>
+                        <span class="category-name">Mobiles</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🔌</span>
+                        <span class="category-name">Electronics</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">💄</span>
+                        <span class="category-name">Beauty</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🏠</span>
+                        <span class="category-name">Home</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🔧</span>
+                        <span class="category-name">Appliances</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🧸</span>
+                        <span class="category-name">Toys, ba...</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🍔</span>
+                        <span class="category-name">Food & H...</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🚗</span>
+                        <span class="category-name">Auto Acc...</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">⚽</span>
+                        <span class="category-name">Sports &...</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🪑</span>
+                        <span class="category-name">Furniture</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">📚</span>
+                        <span class="category-name">Books</span>
+                    </button>
+                    <button class="category-item">
+                        <span class="category-icon">🏍️</span>
+                        <span class="category-name">2 Wheele...</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 

@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background-color: white;
     padding: 1.5rem 1rem;
 }
 
@@ -54,7 +54,7 @@
 .auth-logo .logo-mart {
     font-size: 1rem;
     color: #333;
-    margin-left: 0.1rem;
+    margin-left: 0;
 }
 
 .auth-form {
@@ -123,10 +123,32 @@
 /* Validation Styles */
 input.invalid {
     border-color: var(--error-color);
+    border-width: 2px;
 }
 
 input.valid {
     border-color: var(--success-color);
+    border-width: 2px;
+}
+
+textarea.invalid {
+    border-color: var(--error-color);
+    border-width: 2px;
+}
+
+textarea.valid {
+    border-color: var(--success-color);
+    border-width: 2px;
+}
+
+select.invalid {
+    border-color: var(--error-color);
+    border-width: 2px;
+}
+
+select.valid {
+    border-color: var(--success-color);
+    border-width: 2px;
 }
 
 .form-hint {
@@ -136,42 +158,99 @@ input.valid {
 }
 
 /* Password Strength Indicator */
-.password-strength {
+.password-strength-indicator {
     margin-top: 0.3rem;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-.password-strength-bar {
-    height: 3px;
-    background-color: var(--gray-200);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 0.2rem;
-}
-
-.password-strength-fill {
-    height: 100%;
-    width: 0;
-    transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.password-strength-text {
-    font-size: 0.7rem;
+.strength-text {
     color: var(--text-secondary);
 }
 
-.password-strength-weak .password-strength-fill {
-    width: 33%;
-    background-color: var(--error-color);
+.strength-value {
+    font-weight: 600;
 }
 
-.password-strength-medium .password-strength-fill {
-    width: 66%;
-    background-color: var(--accent-color);
+.strength-value.weak {
+    color: var(--error-color);
 }
 
-.password-strength-strong .password-strength-fill {
-    width: 100%;
-    background-color: var(--success-color);
+.strength-value.medium {
+    color: var(--accent-color);
+}
+
+.strength-value.strong {
+    color: var(--success-color);
+}
+
+/* Password Match Indicator */
+.password-match-indicator {
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.match-text {
+    color: var(--text-secondary);
+}
+
+.match-value {
+    font-weight: 600;
+}
+
+.match-value.match {
+    color: var(--success-color);
+}
+
+.match-value.no-match {
+    color: var(--error-color);
+}
+
+/* Mobile Input Container */
+.mobile-input-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.country-code-select {
+    width: auto;
+    min-width: 140px;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+.country-code-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.mobile-input-container input {
+    flex: 1;
+}
+
+.mobile-validation-text {
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.mobile-validation-text.valid {
+    color: var(--success-color);
+}
+
+.mobile-validation-text.invalid {
+    color: var(--error-color);
 }
 
 /* Success/Error States in Auth Form */

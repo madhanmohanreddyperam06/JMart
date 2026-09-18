@@ -3,6 +3,41 @@
 let allProducts = [];
 let allCategories = [];
 
+// Check authentication state for cart count update
+function isLoggedIn() {
+    return localStorage.getItem('token') !== null;
+}
+
+function isCustomer() {
+    return localStorage.getItem('role') === 'CUSTOMER';
+}
+
+// Update cart count function
+async function updateCartCount() {
+    try {
+        const cart = await API.cart.getAll();
+        const totalCount = cart.items ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+        updateCartCountDisplay(totalCount);
+    } catch (error) {
+        // Silently fail for cart count updates
+        console.error('Failed to update cart count:', error);
+    }
+}
+
+// Update cart count display function
+function updateCartCountDisplay(count) {
+    // Update for new home page structure
+    const cartBadge = document.getElementById('cartBadge');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+        if (count > 0) {
+            cartBadge.style.display = 'inline-block';
+        } else {
+            cartBadge.style.display = 'none';
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const productsContainer = document.getElementById('productsContainer');
     const errorElement = document.getElementById('productsError');
@@ -17,6 +52,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load initial data
     await loadCategories();
     await loadProducts();
+    
+    // Update cart count if user is logged in
+    if (isLoggedIn() && isCustomer()) {
+        updateCartCount();
+    }
 
     // Search functionality
     searchButton.addEventListener('click', handleSearch);
@@ -96,16 +136,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="product-image-placeholder">📦</div>
             </div>
             <div class="product-details">
-                <div class="product-category">${product.categoryName || 'Uncategorized'}</div>
-                <h3 class="product-name">${product.name}</h3>
-                <div class="product-brand">${product.brand || 'Unknown Brand'}</div>
-                <p class="product-description">${product.description || 'No description available'}</p>
+                <div class="product-category">${escapeHtml(product.categoryName || 'Uncategorized')}</div>
+                <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                <div class="product-brand">${escapeHtml(product.brand || 'Unknown Brand')}</div>
+                <p class="product-description">${escapeHtml(product.description || 'No description available')}</p>
                 <div class="product-price">${formatCurrency(product.price)}</div>
                 <div class="product-stock ${stockClass}">
-                    ${stockStatus}: ${product.quantity} available
+                    ${escapeHtml(stockStatus)}: ${escapeHtml(product.quantity)} available
                 </div>
                 <div class="product-actions">
-                    <button class="btn btn-primary" onclick="viewProductDetails(${product.id})">
+                    <button class="btn btn-primary" onclick="viewProductDetails(${encodeURIComponent(product.id)})">
                         View Details
                     </button>
                 </div>

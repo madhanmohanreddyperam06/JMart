@@ -54,22 +54,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="product-details-image-placeholder">📦</div>
                 </div>
                 <div class="product-details-info">
-                    <h1>${product.name}</h1>
-                    <div class="product-details-brand">${product.brand || 'Unknown Brand'}</div>
-                    <div class="product-details-category">${product.categoryName || 'Uncategorized'}</div>
+                    <h1>${escapeHtml(product.name)}</h1>
+                    <div class="product-details-brand">${escapeHtml(product.brand || 'Unknown Brand')}</div>
+                    <div class="product-details-category">${escapeHtml(product.categoryName || 'Uncategorized')}</div>
                     <div class="product-details-price">${formatCurrency(product.price)}</div>
                     <div class="product-details-description">
-                        ${product.description || 'No description available for this product.'}
+                        ${escapeHtml(product.description || 'No description available for this product.')}
                     </div>
                     <div class="product-details-stock ${stockClass}">
-                        <strong>Availability:</strong> ${stockStatus} (${product.quantity} units available)
+                        <strong>Availability:</strong> ${escapeHtml(stockStatus)} (${escapeHtml(product.quantity)} units available)
                     </div>
                     <div class="product-details-actions">
                         <div class="quantity-selector">
                             <label for="quantity">Quantity:</label>
                             <div class="quantity-controls">
                                 <button class="quantity-btn" id="decreaseQty" ${product.quantity <= 1 ? 'disabled' : ''}>-</button>
-                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.quantity}" readonly>
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="${escapeHtml(product.quantity)}" readonly>
                                 <button class="quantity-btn" id="increaseQty" ${product.quantity <= 1 ? 'disabled' : ''}>+</button>
                             </div>
                         </div>
