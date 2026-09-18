@@ -6,8 +6,8 @@
 }
 
 :root {
-    --primary-color: #1a365d;
-    --primary-dark: #0f2847;
+    --primary-color: #667eea;
+    --primary-dark: #764ba2;
     --secondary-color: #ffffff;
     --light-gray: #f7fafc;
     --gray-100: #edf2f7;
@@ -15,10 +15,7 @@
     --gray-300: #cbd5e0;
     --gray-400: #a0aec0;
     --gray-500: #718096;
-    --gray-600: #4a5568;
-    --gray-700: #2d3748;
     --accent-color: #ed8936;
-    --accent-dark: #dd6b20;
     --success-color: #48bb78;
     --error-color: #f56565;
     --text-primary: #1a202c;
@@ -27,13 +24,12 @@
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
     color: var(--text-primary);
     background-color: var(--light-gray);
 }
@@ -64,7 +60,7 @@ select {
 header {
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    padding: 1rem 2rem;
+    padding: 0.75rem 1.5rem;
     box-shadow: var(--shadow-md);
     position: sticky;
     top: 0;
@@ -72,7 +68,7 @@ header {
 }
 
 .header-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -80,23 +76,38 @@ header {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     color: var(--secondary-color);
+}
+
+.logo-j {
+    font-size: 1.75rem;
+    background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-mart {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin-left: 0.1rem;
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 nav a {
     color: var(--secondary-color);
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 4px;
     transition: background-color 0.2s ease;
+    font-size: 0.9rem;
 }
 
 nav a:hover {
@@ -106,10 +117,10 @@ nav a:hover {
 /* Buttons */
 .btn {
     display: inline-block;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
     font-weight: 500;
     text-align: center;
     transition: all 0.2s ease;
@@ -140,7 +151,7 @@ nav a:hover {
 }
 
 .btn-accent:hover {
-    background-color: var(--accent-dark);
+    background-color: #dd6b20;
     transform: translateY(-1px);
 }
 
@@ -163,13 +174,8 @@ nav a:hover {
 }
 
 .btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-}
-
-.btn-lg {
-    padding: 1rem 2rem;
-    font-size: 1.125rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
 }
 
 .btn:disabled {
@@ -180,14 +186,15 @@ nav a:hover {
 
 /* Forms */
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     font-weight: 500;
     color: var(--text-primary);
+    font-size: 0.9rem;
 }
 
 input[type="text"],
@@ -198,10 +205,10 @@ input[type="tel"],
 textarea,
 select {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.6rem;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -210,7 +217,7 @@ textarea:focus,
 select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
 }
 
 input.error,
@@ -221,16 +228,17 @@ select.error {
 
 .error-message {
     color: var(--error-color);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
 }
 
 /* Messages */
 .message {
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
     font-weight: 500;
+    font-size: 0.9rem;
 }
 
 .message-success {
@@ -262,14 +270,14 @@ select.error {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 1.5rem;
     color: var(--text-secondary);
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--gray-200);
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--gray-200);
     border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -283,7 +291,7 @@ select.error {
 
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 1rem;
 }
@@ -291,9 +299,9 @@ select.error {
 /* Card */
 .card {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
-    padding: 1.5rem;
+    padding: 1rem;
     transition: box-shadow 0.2s ease;
 }
 
@@ -304,7 +312,7 @@ select.error {
 /* Grid */
 .grid {
     display: grid;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .grid-2 {
@@ -322,23 +330,23 @@ select.error {
 /* Empty State */
 .empty-state {
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
     color: var(--text-secondary);
 }
 
 .empty-state-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
     color: var(--gray-400);
 }
 
 .empty-state-text {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
 }
 
 .empty-state-subtext {
-    font-size: 0.875rem;
+    font-size: 0.85rem;
     color: var(--gray-500);
 }
 
@@ -371,10 +379,6 @@ select.error {
     margin-top: 1.5rem;
 }
 
-.mt-5 {
-    margin-top: 2rem;
-}
-
 .mb-1 {
     margin-bottom: 0.25rem;
 }
@@ -391,10 +395,6 @@ select.error {
     margin-bottom: 1.5rem;
 }
 
-.mb-5 {
-    margin-bottom: 2rem;
-}
-
 .p-1 {
     padding: 0.25rem;
 }
@@ -409,10 +409,6 @@ select.error {
 
 .p-4 {
     padding: 1.5rem;
-}
-
-.p-5 {
-    padding: 2rem;
 }
 
 .d-flex {
@@ -443,10 +439,6 @@ select.error {
     gap: 1rem;
 }
 
-.gap-4 {
-    gap: 1.5rem;
-}
-
 .w-100 {
     width: 100%;
 }
@@ -459,10 +451,10 @@ select.error {
 .cart-count-badge {
     background-color: var(--accent-color);
     color: var(--secondary-color);
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 10px;
-    margin-left: 0.25rem;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 8px;
+    margin-left: 0.2rem;
 }
 
 /* Text Colors */

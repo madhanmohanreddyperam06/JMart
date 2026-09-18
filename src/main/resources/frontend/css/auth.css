@@ -6,38 +6,61 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
 }
 
 .auth-card {
     background-color: var(--secondary-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow-xl);
-    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
     width: 100%;
-    max-width: 450px;
+    max-width: 400px;
 }
 
 .auth-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .auth-header h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
 
 .auth-header p {
     color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.auth-logo {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.auth-logo .logo-j {
+    font-size: 1.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.auth-logo .logo-mart {
     font-size: 1rem;
+    color: #333;
+    margin-left: 0.1rem;
 }
 
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .auth-form .form-group {
@@ -47,31 +70,32 @@
 .auth-form label {
     font-weight: 600;
     color: var(--text-primary);
+    font-size: 0.85rem;
 }
 
 .auth-form input {
-    padding: 0.875rem;
-    font-size: 1rem;
+    padding: 0.6rem;
+    font-size: 0.9rem;
 }
 
 .auth-form button {
     width: 100%;
-    padding: 1rem;
-    font-size: 1.125rem;
+    padding: 0.75rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .auth-footer {
     text-align: center;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--border-color);
 }
 
 .auth-footer p {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.85rem;
 }
 
 .auth-footer a {
@@ -87,12 +111,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .auth-loading .spinner {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-width: 2px;
 }
 
@@ -106,22 +130,22 @@ input.valid {
 }
 
 .form-hint {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--gray-500);
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
 }
 
 /* Password Strength Indicator */
 .password-strength {
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .password-strength-bar {
-    height: 4px;
+    height: 3px;
     background-color: var(--gray-200);
     border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 
 .password-strength-fill {
@@ -131,7 +155,7 @@ input.valid {
 }
 
 .password-strength-text {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
 }
 
@@ -154,26 +178,28 @@ input.valid {
 .auth-success {
     background-color: #f0fff4;
     color: var(--success-color);
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
     border: 1px solid #c6f6d5;
+    font-size: 0.85rem;
 }
 
 .auth-error {
     background-color: #fff5f5;
     color: var(--error-color);
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
     border: 1px solid #fed7d7;
+    font-size: 0.85rem;
 }
 
 /* Checkbox Styles */
 .checkbox-group {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -185,6 +211,7 @@ input.valid {
     margin-bottom: 0;
     font-weight: 400;
     cursor: pointer;
+    font-size: 0.85rem;
 }
 
 /* Remember Me & Forgot Password */
@@ -192,11 +219,11 @@ input.valid {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
 
 .forgot-password {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--primary-color);
 }
 
@@ -206,14 +233,14 @@ input.valid {
 
 /* Profile Page Styles */
 .profile-container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 1.5rem 0;
 }
 
 .profile-card {
     background-color: var(--secondary-color);
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: var(--shadow-lg);
     overflow: hidden;
 }
@@ -221,89 +248,89 @@ input.valid {
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 2rem;
+    gap: 1rem;
+    padding: 1.5rem;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: var(--secondary-color);
 }
 
 .profile-avatar {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-color: var(--secondary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid var(--secondary-color);
+    border: 2px solid var(--secondary-color);
 }
 
 .profile-avatar-placeholder {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 .profile-info h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.3rem;
 }
 
 .profile-role {
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .role-badge {
     display: inline-block;
     background-color: var(--accent-color);
     color: var(--secondary-color);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
 }
 
 .profile-section {
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .profile-section h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--border-color);
 }
 
 .profile-info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .profile-info-item {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .profile-info-item label {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .profile-info-value {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--text-primary);
     font-weight: 500;
 }
 
 .profile-actions {
     display: flex;
-    gap: 1rem;
-    padding: 1.5rem 2rem;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
     background-color: var(--gray-100);
     border-top: 1px solid var(--border-color);
 }
@@ -329,10 +356,10 @@ input.valid {
 
 .modal-content {
     background-color: var(--secondary-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow-xl);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     max-height: 90vh;
     overflow-y: auto;
 }
@@ -341,12 +368,12 @@ input.valid {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1rem;
     border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h2 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--primary-color);
     margin: 0;
 }
@@ -354,10 +381,10 @@ input.valid {
 .modal-close {
     background: none;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.3rem;
     line-height: 1;
     transition: color 0.2s ease;
 }
@@ -367,13 +394,13 @@ input.valid {
 }
 
 .modal-body {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .form-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 .form-actions .btn {
@@ -385,7 +412,7 @@ input.valid {
     .profile-header {
         flex-direction: column;
         text-align: center;
-        padding: 1.5rem;
+        padding: 1rem;
     }
 
     .profile-info-grid {
@@ -407,24 +434,24 @@ input.valid {
 
 /* Admin Dashboard Styles */
 .admin-dashboard {
-    padding: 2rem 0;
+    padding: 1.5rem 0;
 }
 
 .dashboard-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .stat-card {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
-    padding: 1.5rem;
+    padding: 1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     transition: box-shadow 0.2s ease;
 }
 
@@ -433,14 +460,14 @@ input.valid {
 }
 
 .stat-icon {
-    font-size: 2.5rem;
-    width: 60px;
-    height: 60px;
+    font-size: 1.75rem;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--gray-100);
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .stat-info {
@@ -448,13 +475,13 @@ input.valid {
 }
 
 .stat-label {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 
 .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-color);
 }
@@ -462,59 +489,59 @@ input.valid {
 .dashboard-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .dashboard-section {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .dashboard-section h2 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--border-color);
 }
 
 .quick-actions {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .quick-actions .btn {
-    padding: 1rem;
-    font-size: 0.875rem;
+    padding: 0.6rem;
+    font-size: 0.8rem;
 }
 
 .recent-activity {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .activity-item {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
+    gap: 0.5rem;
+    padding: 0.6rem;
     background-color: var(--gray-100);
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .activity-icon {
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
+    font-size: 1.25rem;
+    width: 35px;
+    height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--secondary-color);
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 .activity-info {
@@ -524,11 +551,12 @@ input.valid {
 .activity-text {
     font-weight: 500;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
 }
 
 .activity-time {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
 }
 
@@ -549,21 +577,21 @@ input.valid {
     }
 
     .stat-card {
-        padding: 1rem;
+        padding: 0.75rem;
     }
 
     .stat-icon {
-        font-size: 2rem;
-        width: 50px;
-        height: 50px;
+        font-size: 1.5rem;
+        width: 40px;
+        height: 40px;
     }
 
     .stat-value {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 
     .quick-actions .btn {
-        padding: 0.875rem;
+        padding: 0.5rem;
     }
 }
 
@@ -571,12 +599,12 @@ input.valid {
 .admin-header-actions {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .admin-products-table {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
     overflow: hidden;
 }
@@ -584,23 +612,24 @@ input.valid {
 .admin-product-name {
     font-weight: 600;
     color: var(--text-primary);
+    font-size: 0.9rem;
 }
 
 .admin-product-brand {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
 }
 
 .admin-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .stock-badge {
     display: inline-block;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -646,13 +675,13 @@ input.valid {
 .admin-orders-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .admin-order-card {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
     overflow: hidden;
     transition: box-shadow 0.2s ease;
@@ -666,39 +695,39 @@ input.valid {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 1.25rem;
+    padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
     background-color: var(--gray-100);
 }
 
 .admin-order-info h3 {
-    font-size: 1.125rem;
+    font-size: 0.9rem;
     color: var(--primary-color);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 
 .admin-order-date {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
 }
 
 .admin-order-user {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--gray-500);
 }
 
 .admin-order-status {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     white-space: nowrap;
 }
 
 .admin-order-items {
-    padding: 1.25rem;
+    padding: 0.75rem;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -706,7 +735,7 @@ input.valid {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid var(--gray-200);
 }
 
@@ -721,59 +750,61 @@ input.valid {
 .admin-item-name {
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.85rem;
 }
 
 .admin-item-quantity {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
 }
 
 .admin-item-price {
     font-weight: 600;
     color: var(--primary-color);
+    font-size: 0.85rem;
 }
 
 .admin-order-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem;
+    padding: 0.75rem;
     background-color: var(--gray-100);
 }
 
 .admin-order-total {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
 }
 
 .admin-order-total-label {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
 }
 
 .admin-order-total-value {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary-color);
 }
 
 .admin-order-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 /* Responsive Design for Admin Orders */
 @media (max-width: 767px) {
     .admin-order-header {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
 
     .admin-order-footer {
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
         align-items: stretch;
     }
 
@@ -789,7 +820,7 @@ input.valid {
 /* Admin Users Styles */
 .admin-users-table {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
     overflow: hidden;
 }
@@ -797,18 +828,19 @@ input.valid {
 .admin-user-name {
     font-weight: 600;
     color: var(--text-primary);
+    font-size: 0.9rem;
 }
 
 .admin-user-phone {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
 }
 
 .role-badge {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.875rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -841,17 +873,17 @@ input.valid {
 /* Admin Inventory Styles */
 .inventory-tabs {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
     border-bottom: 2px solid var(--border-color);
 }
 
 .inventory-tab {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
     cursor: pointer;
@@ -870,16 +902,16 @@ input.valid {
 
 .admin-inventory-table {
     background-color: var(--secondary-color);
-    border-radius: 8px;
+    border-radius: 6px;
     box-shadow: var(--shadow-md);
     overflow: hidden;
 }
 
 .status-badge {
     display: inline-block;
-    padding: 0.25rem 0.5rem;
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
@@ -902,11 +934,11 @@ input.valid {
 @media (max-width: 767px) {
     .inventory-tabs {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.3rem;
     }
 
     .inventory-tab {
-        padding: 0.5rem 1rem;
+        padding: 0.4rem 0.8rem;
         text-align: center;
     }
 

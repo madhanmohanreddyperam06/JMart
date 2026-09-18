@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - E-Commerce Platform</title>
+    <title>Products - JMart</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -11,13 +11,17 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">E-Commerce Platform</div>
+            <div class="logo">
+                <span class="logo-j">J</span><span class="logo-mart">Mart</span>
+            </div>
             <nav>
                 <ul id="navLinks">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="landing.html">Home</a></li>
                     <li><a href="index.html">Products</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="orders.html">Orders</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="login.html" id="loginLink">Login</a></li>
                 </ul>
             </nav>
         </div>
@@ -31,11 +35,7 @@
 
         <div class="products-controls">
             <div class="search-bar">
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search products..."
-                >
+                <input type="text" id="searchInput" placeholder="Search products...">
                 <button id="searchButton" class="btn btn-primary">Search</button>
             </div>
 
@@ -50,26 +50,14 @@
                 <div class="filter-group">
                     <label>Price Range</label>
                     <div class="price-filter">
-                        <input
-                            type="number"
-                            id="minPrice"
-                            placeholder="Min Price"
-                            min="0"
-                            step="0.01"
-                        >
+                        <input type="number" id="minPrice" placeholder="Min" min="0" step="0.01">
                         <span>to</span>
-                        <input
-                            type="number"
-                            id="maxPrice"
-                            placeholder="Max Price"
-                            min="0"
-                            step="0.01"
-                        >
+                        <input type="number" id="maxPrice" placeholder="Max" min="0" step="0.01">
                     </div>
                 </div>
 
                 <div class="filter-actions">
-                    <button id="applyFilters" class="btn btn-primary">Apply Filters</button>
+                    <button id="applyFilters" class="btn btn-primary">Apply</button>
                     <button id="clearFilters" class="btn btn-secondary">Clear</button>
                 </div>
             </div>
