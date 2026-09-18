@@ -1,4 +1,4 @@
-# 🛒 JMart - E-Commerce Management System
+# 🛒 JMart - E-Commerce Platform Application
 
 [![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
