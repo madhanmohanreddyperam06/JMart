@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <p><strong>Payment ID:</strong> ${payment ? escapeHtml(payment.paymentId) : 'N/A'}</p>
                         <p><strong>Gateway:</strong> ${payment ? escapeHtml(payment.gateway) : 'N/A'}</p>
                         <p><strong>Amount:</strong> ${payment ? formatCurrency(payment.amount) : 'N/A'}</p>
-                        <p><strong>Status:</strong> <span class="${isSuccess ? 'text-success' : 'text-error'}">${escapeHtml(paymentStatus)}</span></p>
+                        <p><strong>Status:</strong> <span class="badge ${isSuccess ? 'bg-success text-white' : 'bg-warning text-dark'}">${escapeHtml(paymentStatus)}</span></p>
                     </div>
 
                     ${isSuccess ? `
@@ -114,12 +114,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     `}
 
-                    <div class="cart-actions">
+                    <div class="cart-actions d-flex gap-2 flex-wrap">
                         <button class="btn btn-primary" onclick="window.location.href='index.html'">
-                            Continue Shopping
+                            <i class="fa-solid fa-arrow-left me-1"></i> Continue Shopping
                         </button>
-                        <button class="btn btn-secondary" onclick="window.location.href='orders.html'">
-                            View Order History
+                        <button class="btn btn-outline-secondary" onclick="window.location.href='orders.html'">
+                            <i class="fa-solid fa-receipt me-1"></i> View Order History
                         </button>
                     </div>
                 </div>

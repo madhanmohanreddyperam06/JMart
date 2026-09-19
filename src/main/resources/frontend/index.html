@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - JMart</title>
     <link rel="icon" type="image/svg+xml" href="assets/Icons/j-solid-full.svg">
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -12,40 +16,72 @@
 </head>
 <body>
     <header class="home-header">
-        <div class="header-top">
+        <div class="header-main">
             <div class="header-container">
                 <div class="logo-section">
                     <button class="logo-btn">
                         <span class="logo-j">J</span><span class="logo-mart">Mart</span>
                     </button>
                 </div>
-            </div>
-        </div>
-        
-        <div class="header-main">
-            <div class="header-container">
                 <div class="search-section">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Search for Products, Brands and More">
-                        <button class="search-btn">🔍</button>
+                        <button class="search-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                 </div>
                 
                 <div class="user-actions">
-                    <div class="user-section">
-                        <span class="user-icon">👤</span>
-                        <span class="user-name">Madhan</span>
-                        <span class="dropdown-arrow">▼</span>
+                    <div class="profile-dropdown-container">
+                        <a href="profile.html" class="profile-link" id="headerProfileBtn" title="My Profile">
+                            <div class="profile-icon-wrapper">
+                                <span class="profile-icon"><i class="fa-regular fa-user"></i></span>
+                            </div>
+                            <span class="action-label">Profile</span>
+                        </a>
+                        <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                            <a href="profile.html" class="profile-dropdown-item">
+                                <i class="fa-regular fa-user"></i> View Profile
+                            </a>
+                            <a href="orders.html" class="profile-dropdown-item">
+                                <i class="fa-solid fa-box"></i> Orders
+                            </a>
+                            <a href="#" class="profile-dropdown-item">
+                                <i class="fa-solid fa-heart"></i> Wishlist
+                            </a>
+                            <a href="#" class="profile-dropdown-item">
+                                <i class="fa-solid fa-gift"></i> Gift Cards
+                            </a>
+                            <a href="#" class="profile-dropdown-item">
+                                <i class="fa-solid fa-envelope"></i> Contact Us
+                            </a>
+                            <div class="profile-dropdown-divider"></div>
+                            <a href="#" onclick="logout(); return false;" class="profile-dropdown-item logout-link">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
                     </div>
-                    <div class="more-section">
-                        <span class="more-text">More</span>
-                        <span class="dropdown-arrow">▼</span>
+
+                    <div class="wishlist-section">
+                        <a href="#" class="wishlist-link" id="headerWishlistBtn" title="Wishlist">
+                            <div class="action-icon-container">
+                                <span class="wishlist-icon-wrapper">
+                                    <i class="fa-solid fa-heart wishlist-icon"></i>
+                                    <span class="wishlist-badge" id="wishlistBadge" style="display: none;">0</span>
+                                </span>
+                            </div>
+                            <span class="action-label">Wishlist</span>
+                        </a>
                     </div>
+
                     <div class="cart-section">
-                        <a href="cart.html" class="cart-link">
-                            <span class="cart-icon">🛒</span>
-                            <span class="cart-badge" id="cartBadge">0</span>
-                            <span class="cart-text">Cart</span>
+                        <a href="cart.html" class="cart-link" id="headerCartBtn" title="Cart">
+                            <div class="action-icon-container">
+                                <span class="cart-icon-wrapper">
+                                    <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                                </span>
+                            </div>
+                            <span class="action-label">Cart</span>
                         </a>
                     </div>
                 </div>
@@ -55,61 +91,69 @@
         <div class="category-nav">
             <div class="header-container">
                 <div class="category-scroll">
-                    <button class="category-item active">
-                        <span class="category-icon">🎯</span>
+                    <button class="category-item active" title="For You">
+                        <span class="category-icon cat-for-you"><i class="fa-solid fa-bullseye"></i></span>
                         <span class="category-name">For You</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">👔</span>
+                    <button class="category-item" title="Fashion">
+                        <span class="category-icon cat-fashion"><i class="fa-solid fa-shirt"></i></span>
                         <span class="category-name">Fashion</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">📱</span>
+                    <button class="category-item" title="Mobiles">
+                        <span class="category-icon cat-mobiles"><i class="fa-solid fa-mobile-screen-button"></i></span>
                         <span class="category-name">Mobiles</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🔌</span>
+                    <button class="category-item" title="Electronics">
+                        <span class="category-icon cat-electronics"><i class="fa-solid fa-plug"></i></span>
                         <span class="category-name">Electronics</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">💄</span>
+                    <button class="category-item" title="Beauty">
+                        <span class="category-icon cat-beauty"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
                         <span class="category-name">Beauty</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🏠</span>
-                        <span class="category-name">Home</span>
-                    </button>
-                    <button class="category-item">
-                        <span class="category-icon">🔧</span>
+                    <button class="category-item" title="Appliances">
+                        <span class="category-icon cat-appliances"><i class="fa-solid fa-wrench"></i></span>
                         <span class="category-name">Appliances</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🧸</span>
+                    <button class="category-item" title="Toys, Baby & More">
+                        <span class="category-icon cat-toys"><i class="fa-solid fa-puzzle-piece"></i></span>
                         <span class="category-name">Toys, ba...</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🍔</span>
+                    <button class="category-item" title="Food & Health">
+                        <span class="category-icon cat-food"><i class="fa-solid fa-burger"></i></span>
                         <span class="category-name">Food & H...</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🚗</span>
+                    <button class="category-item" title="Auto Accessories">
+                        <span class="category-icon cat-auto"><i class="fa-solid fa-car"></i></span>
                         <span class="category-name">Auto Acc...</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">⚽</span>
+                    <button class="category-item" title="Sports & Fitness">
+                        <span class="category-icon cat-sports"><i class="fa-solid fa-futbol"></i></span>
                         <span class="category-name">Sports &...</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🪑</span>
+                    <button class="category-item" title="Furniture">
+                        <span class="category-icon cat-furniture"><i class="fa-solid fa-chair"></i></span>
                         <span class="category-name">Furniture</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">📚</span>
+                    <button class="category-item" title="Books">
+                        <span class="category-icon cat-books"><i class="fa-solid fa-book"></i></span>
                         <span class="category-name">Books</span>
                     </button>
-                    <button class="category-item">
-                        <span class="category-icon">🏍️</span>
+                    <button class="category-item" title="2 Wheelers">
+                        <span class="category-icon cat-two-wheelers"><i class="fa-solid fa-motorcycle"></i></span>
                         <span class="category-name">2 Wheele...</span>
+                    </button>
+                    <button class="category-item" title="Gaming">
+                        <span class="category-icon cat-gaming"><i class="fa-solid fa-gamepad"></i></span>
+                        <span class="category-name">Gaming</span>
+                    </button>
+                    <button class="category-item" title="Music">
+                        <span class="category-icon cat-music"><i class="fa-solid fa-music"></i></span>
+                        <span class="category-name">Music</span>
+                    </button>
+                    <button class="category-item" title="Health">
+                        <span class="category-icon cat-health"><i class="fa-solid fa-heart-pulse"></i></span>
+                        <span class="category-name">Health</span>
                     </button>
                 </div>
             </div>
@@ -117,41 +161,6 @@
     </header>
 
     <main class="container products-page">
-        <div class="products-header">
-            <h1>Our Products</h1>
-            <p>Browse our collection of quality products</p>
-        </div>
-
-        <div class="products-controls">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search products...">
-                <button id="searchButton" class="btn btn-primary">Search</button>
-            </div>
-
-            <div class="filters">
-                <div class="filter-group">
-                    <label for="categoryFilter">Category</label>
-                    <select id="categoryFilter">
-                        <option value="">All Categories</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label>Price Range</label>
-                    <div class="price-filter">
-                        <input type="number" id="minPrice" placeholder="Min" min="0" step="0.01">
-                        <span>to</span>
-                        <input type="number" id="maxPrice" placeholder="Max" min="0" step="0.01">
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button id="applyFilters" class="btn btn-primary">Apply</button>
-                    <button id="clearFilters" class="btn btn-secondary">Clear</button>
-                </div>
-            </div>
-        </div>
-
         <div id="productsError" class="message message-error hidden"></div>
 
         <div id="productsContainer">
@@ -162,6 +171,8 @@
         </div>
     </main>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
     <script src="js/common.js"></script>
     <script src="js/products.js"></script>

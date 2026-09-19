@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const productsHTML = `
-            <div class="admin-products-table">
-                <table class="cart-table">
+            <div class="admin-products-table table-responsive">
+                <table class="cart-table table table-hover align-middle">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -52,22 +52,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <tr>
                                 <td>${escapeHtml(product.id)}</td>
                                 <td>
-                                    <div class="admin-product-name">${escapeHtml(product.name)}</div>
-                                    <div class="admin-product-brand">${escapeHtml(product.brand || 'N/A')}</div>
+                                    <div class="admin-product-name fw-semibold">${escapeHtml(product.name)}</div>
+                                    <div class="admin-product-brand text-secondary small">${escapeHtml(product.brand || 'N/A')}</div>
                                 </td>
-                                <td>${escapeHtml(product.categoryName || 'N/A')}</td>
-                                <td>${formatCurrency(product.price)}</td>
+                                <td><span class="badge bg-light text-dark border">${escapeHtml(product.categoryName || 'N/A')}</span></td>
+                                <td class="fw-semibold">${formatCurrency(product.price)}</td>
                                 <td>
-                                    <span class="stock-badge ${getStockClass(product.quantity)}">
+                                    <span class="stock-badge badge rounded-pill ${getStockClass(product.quantity)}">
                                         ${escapeHtml(product.quantity)}
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="admin-actions">
+                                    <div class="admin-actions d-flex gap-1">
                                         <button class="btn btn-sm btn-secondary" onclick="openEditProductModal(${encodeURIComponent(product.id)})">
                                             Edit
                                         </button>
-                                        <button class="btn btn-sm btn-error" onclick="deleteProduct(${encodeURIComponent(product.id)})">
+                                        <button class="btn btn-sm btn-danger" onclick="deleteProduct(${encodeURIComponent(product.id)})">
                                             Delete
                                         </button>
                                     </div>
@@ -112,44 +112,48 @@ async function openAddProductModal() {
 
         const modalHTML = `
             <div class="modal-overlay" id="productModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Add New Product</h2>
-                        <button class="modal-close" onclick="closeProductModal()">&times;</button>
+                <div class="modal-content shadow-lg border-0" style="max-width: 520px;">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
+                        <h5 class="modal-title mb-0 fw-bold">Add New Product</h5>
+                        <button type="button" class="btn-close modal-close" onclick="closeProductModal()" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="productForm">
-                            <div class="form-group">
-                                <label for="productName">Product Name *</label>
-                                <input type="text" id="productName" name="name" required>
+                            <div class="form-group mb-3">
+                                <label for="productName" class="form-label">Product Name *</label>
+                                <input type="text" id="productName" name="name" class="form-control" required>
                             </div>
-                            <div class="form-group">
-                                <label for="productDescription">Description</label>
-                                <textarea id="productDescription" name="description" rows="3"></textarea>
+                            <div class="form-group mb-3">
+                                <label for="productDescription" class="form-label">Description</label>
+                                <textarea id="productDescription" name="description" class="form-control" rows="3"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="productPrice">Price *</label>
-                                <input type="number" id="productPrice" name="price" step="0.01" min="0" required>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label for="productPrice" class="form-label">Price *</label>
+                                    <input type="number" id="productPrice" name="price" class="form-control" step="0.01" min="0" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productQuantity" class="form-label">Quantity *</label>
+                                    <input type="number" id="productQuantity" name="quantity" class="form-control" min="0" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="productQuantity">Quantity *</label>
-                                <input type="number" id="productQuantity" name="quantity" min="0" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="productBrand">Brand</label>
-                                <input type="text" id="productBrand" name="brand">
-                            </div>
-                            <div class="form-group">
-                                <label for="productCategory">Category *</label>
-                                <select id="productCategory" name="categoryId" required>
-                                    <option value="">Select a category</option>
-                                    ${categoryOptions}
-                                </select>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label for="productBrand" class="form-label">Brand</label>
+                                    <input type="text" id="productBrand" name="brand" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productCategory" class="form-label">Category *</label>
+                                    <select id="productCategory" name="categoryId" class="form-select" required>
+                                        <option value="">Select a category</option>
+                                        ${categoryOptions}
+                                    </select>
+                                </div>
                             </div>
                             <div id="productError" class="message message-error hidden"></div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Add Product</button>
+                            <div class="form-actions d-flex gap-2 justify-content-end mt-4">
                                 <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add Product</button>
                             </div>
                         </form>
                     </div>
@@ -184,44 +188,48 @@ async function openEditProductModal(productId) {
 
         const modalHTML = `
             <div class="modal-overlay" id="productModal">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Edit Product</h2>
-                        <button class="modal-close" onclick="closeProductModal()">&times;</button>
+                <div class="modal-content shadow-lg border-0" style="max-width: 520px;">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
+                        <h5 class="modal-title mb-0 fw-bold">Edit Product</h5>
+                        <button type="button" class="btn-close modal-close" onclick="closeProductModal()" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="productForm">
-                            <div class="form-group">
-                                <label for="productName">Product Name *</label>
-                                <input type="text" id="productName" name="name" value="${escapeHtml(product.name)}" required>
+                            <div class="form-group mb-3">
+                                <label for="productName" class="form-label">Product Name *</label>
+                                <input type="text" id="productName" name="name" class="form-control" value="${escapeHtml(product.name)}" required>
                             </div>
-                            <div class="form-group">
-                                <label for="productDescription">Description</label>
-                                <textarea id="productDescription" name="description" rows="3">${escapeHtml(product.description || '')}</textarea>
+                            <div class="form-group mb-3">
+                                <label for="productDescription" class="form-label">Description</label>
+                                <textarea id="productDescription" name="description" class="form-control" rows="3">${escapeHtml(product.description || '')}</textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="productPrice">Price *</label>
-                                <input type="number" id="productPrice" name="price" step="0.01" min="0" value="${escapeHtml(product.price)}" required>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label for="productPrice" class="form-label">Price *</label>
+                                    <input type="number" id="productPrice" name="price" class="form-control" step="0.01" min="0" value="${escapeHtml(product.price)}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productQuantity" class="form-label">Quantity *</label>
+                                    <input type="number" id="productQuantity" name="quantity" class="form-control" min="0" value="${escapeHtml(product.quantity)}" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="productQuantity">Quantity *</label>
-                                <input type="number" id="productQuantity" name="quantity" min="0" value="${escapeHtml(product.quantity)}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="productBrand">Brand</label>
-                                <input type="text" id="productBrand" name="brand" value="${escapeHtml(product.brand || '')}">
-                            </div>
-                            <div class="form-group">
-                                <label for="productCategory">Category *</label>
-                                <select id="productCategory" name="categoryId" required>
-                                    <option value="">Select a category</option>
-                                    ${categoryOptions}
-                                </select>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label for="productBrand" class="form-label">Brand</label>
+                                    <input type="text" id="productBrand" name="brand" class="form-control" value="${escapeHtml(product.brand || '')}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="productCategory" class="form-label">Category *</label>
+                                    <select id="productCategory" name="categoryId" class="form-select" required>
+                                        <option value="">Select a category</option>
+                                        ${categoryOptions}
+                                    </select>
+                                </div>
                             </div>
                             <div id="productError" class="message message-error hidden"></div>
-                            <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">Update Product</button>
+                            <div class="form-actions d-flex gap-2 justify-content-end mt-4">
                                 <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Product</button>
                             </div>
                         </form>
                     </div>

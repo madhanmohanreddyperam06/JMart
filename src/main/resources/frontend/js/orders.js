@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <h3>Order #${escapeHtml(order.orderId)}</h3>
                         <div class="order-card-date">${formatDate(order.createdAt)}</div>
                     </div>
-                    <div class="order-card-status ${statusClass}">
+                    <div class="order-card-status badge rounded-pill ${statusClass}">
                         ${escapeHtml(statusText)}
                     </div>
                 </div>
@@ -77,11 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <span class="order-card-total-value">${formatCurrency(order.totalAmount)}</span>
                     </div>
                     <div class="order-card-actions">
-                        <button class="btn btn-secondary btn-sm" onclick="viewOrderDetails(${encodeURIComponent(order.orderId)})">
+                        <button class="btn btn-outline-primary btn-sm" onclick="viewOrderDetails(${encodeURIComponent(order.orderId)})">
                             View Details
                         </button>
                         ${order.status === 'PLACED' || order.status === 'PAYMENT_PENDING' ? `
-                            <button class="btn btn-error btn-sm" onclick="cancelOrder(${encodeURIComponent(order.orderId)})">
+                            <button class="btn btn-outline-danger btn-sm" onclick="cancelOrder(${encodeURIComponent(order.orderId)})">
                                 Cancel Order
                             </button>
                         ` : ''}

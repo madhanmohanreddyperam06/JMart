@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const inventoryHTML = `
-            <div class="admin-inventory-table">
-                <table class="cart-table">
+            <div class="admin-inventory-table table-responsive">
+                <table class="cart-table table table-hover align-middle">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -69,18 +69,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <tr>
                                 <td>${escapeHtml(item.productId)}</td>
                                 <td>
-                                    <div class="admin-product-name">${escapeHtml(item.productName)}</div>
-                                    <div class="admin-product-brand">${escapeHtml(item.brand || 'N/A')}</div>
+                                    <div class="admin-product-name fw-semibold">${escapeHtml(item.productName)}</div>
+                                    <div class="admin-product-brand text-secondary small">${escapeHtml(item.brand || 'N/A')}</div>
                                 </td>
-                                <td>${escapeHtml(item.categoryName || 'N/A')}</td>
-                                <td>${formatCurrency(item.price)}</td>
+                                <td><span class="badge bg-light text-dark border">${escapeHtml(item.categoryName || 'N/A')}</span></td>
+                                <td class="fw-semibold">${formatCurrency(item.price)}</td>
                                 <td>
-                                    <span class="stock-badge ${getStockClass(item.quantity)}">
+                                    <span class="stock-badge badge rounded-pill ${getStockClass(item.quantity)}">
                                         ${escapeHtml(item.quantity)}
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="status-badge ${getStatusClass(item.stockStatus)}">
+                                    <span class="status-badge badge ${getStatusClass(item.stockStatus)}">
                                         ${escapeHtml(item.stockStatus)}
                                     </span>
                                 </td>
@@ -151,23 +151,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 function openUpdateStockModal(productId, currentQuantity, productName) {
     const modalHTML = `
         <div class="modal-overlay" id="stockModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Update Stock</h2>
-                    <button class="modal-close" onclick="closeStockModal()">&times;</button>
+            <div class="modal-content shadow-lg border-0" style="max-width: 440px;">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title mb-0 fw-bold">Update Stock</h5>
+                    <button type="button" class="btn-close modal-close" onclick="closeStockModal()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-3">Update stock for <strong>${escapeHtml(productName)}</strong></p>
-                    <p class="mb-3">Current stock: <strong>${escapeHtml(currentQuantity)}</strong></p>
+                    <p class="mb-1 text-secondary">Product: <strong class="text-dark">${escapeHtml(productName)}</strong></p>
+                    <p class="mb-3 text-secondary">Current stock: <strong class="badge bg-secondary">${escapeHtml(currentQuantity)}</strong></p>
                     <form id="stockForm">
-                        <div class="form-group">
-                            <label for="newQuantity">New Quantity</label>
-                            <input type="number" id="newQuantity" name="quantity" min="0" value="${currentQuantity}" required>
+                        <div class="form-group mb-3">
+                            <label for="newQuantity" class="form-label">New Quantity *</label>
+                            <input type="number" id="newQuantity" name="quantity" class="form-control" min="0" value="${currentQuantity}" required>
                         </div>
                         <div id="stockError" class="message message-error hidden"></div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Update Stock</button>
+                        <div class="form-actions d-flex gap-2 justify-content-end mt-4">
                             <button type="button" class="btn btn-secondary" onclick="closeStockModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update Stock</button>
                         </div>
                     </form>
                 </div>

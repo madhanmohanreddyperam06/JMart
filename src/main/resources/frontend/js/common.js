@@ -135,29 +135,42 @@ function formatCurrency(amount) {
  * @param {HTMLElement} container - Container element to append message to (optional)
  */
 function showMessage(message, type = 'info', container = null) {
+    const bsType = type === 'error' ? 'danger' : type;
+    const icons = {
+        success: '<i class="fa-solid fa-circle-check text-success"></i>',
+        danger: '<i class="fa-solid fa-circle-exclamation text-danger"></i>',
+        warning: '<i class="fa-solid fa-triangle-exclamation text-warning"></i>',
+        info: '<i class="fa-solid fa-circle-info text-info"></i>'
+    };
+    const icon = icons[bsType] || icons.info;
+
     const messageDiv = document.createElement('div');
-    messageDiv.className = `message message-${type}`;
-    messageDiv.textContent = message;
+    messageDiv.className = `alert alert-${bsType} alert-dismissible fade show shadow-sm d-flex align-items-center gap-2 message message-${type}`;
+    messageDiv.setAttribute('role', 'alert');
+    messageDiv.innerHTML = `
+        <span class="fs-5">${icon}</span>
+        <div class="flex-grow-1">${escapeHtml(message)}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.remove()"></button>
+    `;
 
     if (container) {
         container.appendChild(messageDiv);
     } else {
-        // Add to body if no container specified
-        const existingContainer = document.getElementById('message-container');
-        if (existingContainer) {
-            existingContainer.appendChild(messageDiv);
-        } else {
-            const newContainer = document.createElement('div');
-            newContainer.id = 'message-container';
-            newContainer.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;';
-            newContainer.appendChild(messageDiv);
-            document.body.appendChild(newContainer);
+        let existingContainer = document.getElementById('message-container');
+        if (!existingContainer) {
+            existingContainer = document.createElement('div');
+            existingContainer.id = 'message-container';
+            document.body.appendChild(existingContainer);
         }
+        existingContainer.appendChild(messageDiv);
     }
 
     // Auto-remove after 5 seconds
     setTimeout(() => {
-        messageDiv.remove();
+        if (messageDiv.parentElement) {
+            messageDiv.classList.remove('show');
+            setTimeout(() => messageDiv.remove(), 150);
+        }
     }, 5000);
 }
 
@@ -168,9 +181,11 @@ function showMessage(message, type = 'info', container = null) {
  */
 function showLoading(element, message = 'Loading...') {
     element.innerHTML = `
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>${message}</p>
+        <div class="loading d-flex flex-column align-items-center justify-content-center p-4">
+            <div class="spinner-border text-primary mb-2" role="status" style="width: 2.2rem; height: 2.2rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-secondary mb-0 fw-medium">${escapeHtml(message)}</p>
         </div>
     `;
 }
@@ -218,16 +233,18 @@ function showEmpty(element, message, subtext = '') {
 function renderHeader() {
     // Update profile button display and link if present
     const profileBtn = document.getElementById('headerProfileBtn');
-    const profileText = document.querySelector('#headerProfileBtn .profile-text');
-    if (profileBtn && profileText) {
+    const profileText = document.querySelector('#headerProfileBtn .profile-text') || document.getElementById('headerUserName');
+    if (profileBtn) {
         if (isLoggedIn()) {
             const user = getCurrentUser();
             const displayName = (user && user.name) ? escapeHtml(user.name.split(' ')[0]) : 'Profile';
-            profileText.textContent = displayName;
+            if (profileText) profileText.textContent = displayName;
             profileBtn.href = 'profile.html';
+            profileBtn.title = 'My Profile';
         } else {
-            profileText.textContent = 'Profile';
+            if (profileText) profileText.textContent = 'Sign In';
             profileBtn.href = 'login.html';
+            profileBtn.title = 'Sign In';
         }
     }
 
@@ -416,24 +433,18 @@ async function updateCartCount() {
  * @param {number} count - Total cart item count
  */
 function updateCartCountDisplay(count) {
-    // Update for old header structure
-    const cartLink = document.querySelector('nav a[href="cart.html"]');
-    if (cartLink) {
-        if (count > 0) {
-            cartLink.innerHTML = `Cart <span class="cart-count-badge">${count}</span>`;
-        } else {
-            cartLink.textContent = 'Cart';
-        }
-    }
-    
-    // Update for new home page structure
     const cartBadge = document.getElementById('cartBadge');
     if (cartBadge) {
-        cartBadge.textContent = count;
-        if (count > 0) {
-            cartBadge.style.display = 'inline-block';
+        const num = Number(count) || 0;
+        cartBadge.textContent = num > 99 ? '99+' : num;
+        if (num > 0) {
+            cartBadge.style.display = 'inline-flex';
+            cartBadge.classList.remove('visible');
+            void cartBadge.offsetWidth; // Force DOM reflow for CSS bounce animation
+            cartBadge.classList.add('visible');
         } else {
             cartBadge.style.display = 'none';
+            cartBadge.classList.remove('visible');
         }
     }
 }

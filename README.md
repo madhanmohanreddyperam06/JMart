@@ -1,9 +1,13 @@
 # 🛒 JMart - E-Commerce Platform Application
 
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://www.w3.org/html/)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://www.javascript.com/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
 [![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Maven](https://img.shields.io/badge/Maven-3.9-red?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 A production-ready e-commerce platform with comprehensive backend API and modern frontend. Built with Java Spring Boot and featuring Razorpay payment integration, JWT authentication, and a beautiful animated landing page.
@@ -20,6 +24,9 @@ A production-ready e-commerce platform with comprehensive backend API and modern
 - 🎨 **Modern Frontend** - Beautiful animated landing page with JMart branding
 - 🔒 **Security** - BCrypt password hashing and role-based authorization
 - 📱 **Responsive Design** - Mobile-friendly interface
+- 🎯 **Enhanced Navigation** - 16 category navigation with intuitive icons
+- 👤 **Profile Dropdown** - Quick access to profile, orders, wishlist, and settings
+- 🔄 **Consistent Header** - Unified header design across all user pages
 
 ## 🚀 Tech Stack
 
@@ -41,6 +48,8 @@ A production-ready e-commerce platform with comprehensive backend API and modern
 - **Responsive Design** - Mobile-first approach
 - **Modern CSS** - Animations and gradients
 - **REST API Integration** - Dynamic content loading
+- **FontAwesome Icons** - Consistent iconography across the application
+- **Bootstrap 5** - Responsive grid system and components
 
 ## 📋 Prerequisites
 
@@ -212,10 +221,11 @@ E-Commerce Platform/
 1. **Landing Page** → Beautiful animated JMart welcome page
 2. **Registration** → First-time users create account
 3. **Login** → Existing users sign in
-4. **Browse Products** → View and search products
-5. **Add to Cart** → Build shopping cart
+4. **Browse Products** → View and search products with category navigation
+5. **Add to Cart** → Build shopping cart with real-time updates
 6. **Checkout** → Process order with payment
-7. **Order Management** → Track order status
+7. **Order Management** → Track order status and history
+8. **Profile Management** → Access profile, orders, wishlist, and settings via dropdown
 
 ## 🔐 Security Features
 
@@ -288,6 +298,7 @@ taskkill /PID <PID> /F
 - ✅ **Phase 7**: Admin module and dashboard
 - ✅ **Phase 8**: Payment integration with Razorpay
 - ✅ **Phase 9**: Modern frontend with JMart branding
+- ✅ **Phase 10**: Enhanced UI/UX with improved header, navigation, and user experience
 
 ## 🤝 Contributing
 
@@ -310,6 +321,8 @@ This project is licensed under the MIT License.
 - Spring Boot team for the amazing framework
 - Razorpay for payment gateway integration
 - Open source community for various libraries
+- FontAwesome for icon libraries
+- Bootstrap for responsive framework
 
 ---
 

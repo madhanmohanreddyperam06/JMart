@@ -36,21 +36,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const cartHTML = `
-            <div class="cart-container">
-                <table class="cart-table cart-desktop-only">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${cart.items.map(item => renderCartItemRow(item)).join('')}
-                    </tbody>
-                </table>
+            <div class="cart-container shadow-sm border-0">
+                <div class="table-responsive">
+                    <table class="cart-table table table-hover align-middle cart-desktop-only mb-0">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${cart.items.map(item => renderCartItemRow(item)).join('')}
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="cart-mobile-only">
                     ${cart.items.map(item => renderCartItemMobile(item)).join('')}
@@ -59,22 +61,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="cart-summary">
                     <div class="cart-summary-row">
                         <span class="cart-summary-label">Total Items:</span>
-                        <span class="cart-summary-value">${getTotalItemCount(cart.items)}</span>
+                        <span class="cart-summary-value fw-semibold">${getTotalItemCount(cart.items)}</span>
                     </div>
                     <div class="cart-summary-row">
                         <span class="cart-summary-label">Total Amount:</span>
-                        <span class="cart-summary-value cart-summary-total">${formatCurrency(cart.totalAmount)}</span>
+                        <span class="cart-summary-value cart-summary-total text-primary fw-bold">${formatCurrency(cart.totalAmount)}</span>
                     </div>
                 </div>
 
-                <div class="cart-actions">
+                <div class="cart-actions d-flex flex-wrap gap-2">
                     <button class="btn btn-secondary" onclick="window.location.href='index.html'">
                         Continue Shopping
                     </button>
                     <button class="btn btn-primary" onclick="window.location.href='checkout.html'">
                         Proceed to Checkout
                     </button>
-                    <button class="btn btn-error" onclick="confirmClearCart()">
+                    <button class="btn btn-danger" onclick="confirmClearCart()">
                         Clear Cart
                     </button>
                 </div>

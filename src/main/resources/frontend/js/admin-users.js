@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const usersHTML = `
-            <div class="admin-users-table">
-                <table class="cart-table">
+            <div class="admin-users-table table-responsive">
+                <table class="cart-table table table-hover align-middle">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -52,16 +52,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <tr>
                                 <td>${escapeHtml(user.id)}</td>
                                 <td>
-                                    <div class="admin-user-name">${escapeHtml(user.name)}</div>
-                                    <div class="admin-user-phone">${escapeHtml(user.phone || 'N/A')}</div>
+                                    <div class="admin-user-name fw-semibold">${escapeHtml(user.name)}</div>
+                                    <div class="admin-user-phone text-secondary small">${escapeHtml(user.phone || 'N/A')}</div>
                                 </td>
                                 <td>${escapeHtml(user.email)}</td>
                                 <td>
-                                    <span class="role-badge ${user.role === 'ADMIN' ? 'role-admin' : 'role-customer'}">
+                                    <span class="role-badge badge rounded-pill ${user.role === 'ADMIN' ? 'bg-primary' : 'bg-secondary'}">
                                         ${escapeHtml(user.role)}
                                     </span>
                                 </td>
-                                <td>${formatDate(user.createdAt)}</td>
+                                <td class="text-secondary small">${formatDate(user.createdAt)}</td>
                                 <td>
                                     <div class="admin-actions">
                                         <button class="btn btn-sm btn-secondary" onclick="openRoleModal(${encodeURIComponent(user.id)}, '${encodeURIComponent(user.role)}', '${escapeHtml(user.name).replace(/'/g, "\\'")}')">
@@ -94,25 +94,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 function openRoleModal(userId, currentRole, userName) {
     const modalHTML = `
         <div class="modal-overlay" id="roleModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Change User Role</h2>
-                    <button class="modal-close" onclick="closeRoleModal()">&times;</button>
+            <div class="modal-content shadow-lg border-0" style="max-width: 440px;">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title mb-0 fw-bold">Change User Role</h5>
+                    <button type="button" class="btn-close modal-close" onclick="closeRoleModal()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-3">Change role for <strong>${escapeHtml(userName)}</strong></p>
+                    <p class="mb-3 text-secondary">User: <strong class="text-dark">${escapeHtml(userName)}</strong></p>
                     <form id="roleForm">
-                        <div class="form-group">
-                            <label for="userRole">Select Role</label>
-                            <select id="userRole" name="role" required>
+                        <div class="form-group mb-3">
+                            <label for="userRole" class="form-label">Select Role</label>
+                            <select id="userRole" name="role" class="form-select" required>
                                 <option value="CUSTOMER" ${currentRole === 'CUSTOMER' ? 'selected' : ''}>Customer</option>
                                 <option value="ADMIN" ${currentRole === 'ADMIN' ? 'selected' : ''}>Admin</option>
                             </select>
                         </div>
                         <div id="roleError" class="message message-error hidden"></div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Update Role</button>
+                        <div class="form-actions d-flex gap-2 justify-content-end mt-4">
                             <button type="button" class="btn btn-secondary" onclick="closeRoleModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update Role</button>
                         </div>
                     </form>
                 </div>

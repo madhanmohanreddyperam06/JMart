@@ -104,29 +104,29 @@ function openEditProfile() {
 
     const modalHTML = `
         <div class="modal-overlay" id="editProfileModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Edit Profile</h2>
-                    <button class="modal-close" onclick="closeEditProfile()">&times;</button>
+            <div class="modal-content shadow-lg border-0" style="max-width: 480px;">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title mb-0 fw-bold">Edit Profile</h5>
+                    <button type="button" class="btn-close modal-close" onclick="closeEditProfile()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editProfileForm">
-                        <div class="form-group">
-                            <label for="editName">Name</label>
-                            <input type="text" id="editName" name="name" value="${escapeHtml(currentUser.name)}" required>
+                        <div class="form-group mb-3">
+                            <label for="editName" class="form-label">Name *</label>
+                            <input type="text" id="editName" name="name" class="form-control" value="${escapeHtml(currentUser.name)}" required>
                         </div>
-                        <div class="form-group">
-                            <label for="editPhone">Phone</label>
-                            <input type="tel" id="editPhone" name="phone" value="${escapeHtml(currentUser.phone || '')}">
+                        <div class="form-group mb-3">
+                            <label for="editPhone" class="form-label">Phone</label>
+                            <input type="tel" id="editPhone" name="phone" class="form-control" value="${escapeHtml(currentUser.phone || '')}">
                         </div>
-                        <div class="form-group">
-                            <label for="editAddress">Address</label>
-                            <textarea id="editAddress" name="address" rows="3">${escapeHtml(currentUser.address || '')}</textarea>
+                        <div class="form-group mb-3">
+                            <label for="editAddress" class="form-label">Address</label>
+                            <textarea id="editAddress" name="address" class="form-control" rows="3">${escapeHtml(currentUser.address || '')}</textarea>
                         </div>
                         <div id="editProfileError" class="message message-error hidden"></div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <div class="form-actions d-flex gap-2 justify-content-end mt-4">
                             <button type="button" class="btn btn-secondary" onclick="closeEditProfile()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
                 </div>
