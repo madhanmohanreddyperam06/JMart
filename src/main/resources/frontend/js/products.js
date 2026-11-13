@@ -4,14 +4,19 @@ let allProducts = [];
 let allCategories = [];
 let currentFilteredProducts = [];
 let currentSort = 'popularity';
+let showingWishlistOnly = false;
+
 let activeFilters = {
     search: '',
     categoryId: '',
     minPrice: null,
-    maxPrice: null
+    maxPrice: null,
+    minRating: null,
+    minDiscount: null,
+    inStockOnly: false
 };
 
-// Check authentication state for cart count update
+// Check authentication state
 function isLoggedIn() {
     return localStorage.getItem('token') !== null;
 }
@@ -20,11 +25,19 @@ function isCustomer() {
     return localStorage.getItem('role') === 'CUSTOMER';
 }
 
+function isAdmin() {
+    return localStorage.getItem('role') === 'ADMIN';
+}
+
 // Update cart count function
 async function updateCartCount() {
     try {
+        if (!isLoggedIn() || !isCustomer()) {
+            updateCartCountDisplay(0);
+            return;
+        }
         const cart = await API.cart.getAll();
-        const totalCount = cart.items ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+        const totalCount = cart && cart.items ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
         updateCartCountDisplay(totalCount);
     } catch (error) {
         console.error('Failed to update cart count:', error);
@@ -58,6 +71,19 @@ function getWishlist() {
     }
 }
 
+function updateWishlistCountDisplay() {
+    const badge = document.getElementById('wishlistBadge');
+    if (!badge) return;
+    const wishlist = getWishlist();
+    const count = wishlist.length;
+    badge.textContent = count > 99 ? '99+' : count;
+    if (count > 0) {
+        badge.style.display = 'inline-flex';
+    } else {
+        badge.style.display = 'none';
+    }
+}
+
 function toggleWishlist(productId, btnElement) {
     const wishlist = getWishlist();
     const idStr = String(productId);
@@ -78,6 +104,12 @@ function toggleWishlist(productId, btnElement) {
     }
 
     localStorage.setItem('jmart_wishlist', JSON.stringify(wishlist));
+    updateWishlistCountDisplay();
+
+    if (showingWishlistOnly) {
+        applyLocalFilters();
+    }
+
     if (typeof showMessage === 'function') {
         showMessage(isAdded ? 'Added to Wishlist' : 'Removed from Wishlist', 'info');
     }
@@ -101,7 +133,7 @@ function getCategoryVisual(categoryName, productName) {
         return { icon: '<i class="fa-solid fa-wand-magic-sparkles"></i>', bg: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)', label: 'Beauty' };
     }
     if (cat.includes('home') || cat.includes('furnit') || cat.includes('living') || name.includes('chair') || name.includes('table') || name.includes('bed')) {
-        return { icon: '<i class="fa-solid fa-house"></i>', bg: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)', label: 'Home & Living' };
+        return { icon: '<i class="fa-solid fa-chair"></i>', bg: 'linear-gradient(135deg, #fefce8 0%, #fef9c3 100%)', label: 'Home & Living' };
     }
     if (cat.includes('book') || name.includes('guide') || name.includes('book') || name.includes('novel')) {
         return { icon: '<i class="fa-solid fa-book"></i>', bg: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)', label: 'Books' };
@@ -124,11 +156,12 @@ function getCategoryVisual(categoryName, productName) {
 // Deterministic realistic metrics (ratings, MRP, review counts)
 function getProductMetrics(product) {
     const id = Number(product.id) || 1;
-    const discountPercent = 15 + ((id * 7) % 25); // 15% to 39% discount
+    const discountPercent = 15 + ((id * 7) % 35); // 15% to 49% discount
     const mrp = Math.round(Number(product.price) / (1 - (discountPercent / 100)));
-    const ratingNum = (4.0 + (((id * 13) % 9) / 10)).toFixed(1);
+    const ratingNum = (3.8 + (((id * 13) % 12) / 10)).toFixed(1);
+    const cappedRating = Math.min(5.0, Math.max(3.8, Number(ratingNum))).toFixed(1);
     const reviewCount = (120 + ((id * 317) % 4800)).toLocaleString();
-    return { discountPercent, mrp, rating: ratingNum, reviewCount };
+    return { discountPercent, mrp, rating: cappedRating, reviewCount };
 }
 
 // Quick Add to Cart from Card
@@ -152,7 +185,8 @@ async function handleQuickAddToCart(productId, btnElement) {
 
     try {
         await API.cart.addItem({ productId, quantity: 1 });
-        btnElement.innerHTML = '<span>Added ✓</span>';
+        btnElement.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+        btnElement.style.backgroundColor = '#16a34a';
         if (typeof showMessage === 'function') {
             showMessage('Product added to cart!', 'success');
         }
@@ -160,15 +194,15 @@ async function handleQuickAddToCart(productId, btnElement) {
         setTimeout(() => {
             btnElement.disabled = false;
             btnElement.innerHTML = originalHtml;
-        }, 1400);
+            btnElement.style.backgroundColor = '';
+        }, 1500);
     } catch (error) {
         btnElement.disabled = false;
         btnElement.innerHTML = originalHtml;
         if (typeof handleApiError === 'function') {
             handleApiError(error);
-        }
-        if (typeof showMessage === 'function') {
-            showMessage('Failed to add product to cart', 'error');
+        } else if (typeof showMessage === 'function') {
+            showMessage(error.message || 'Failed to add product to cart', 'error');
         }
     }
 }
@@ -178,49 +212,413 @@ function viewProductDetails(productId) {
     window.location.href = `product-details.html?id=${productId}`;
 }
 
+// Expose functions globally for inline HTML event handlers
+window.toggleWishlist = toggleWishlist;
+window.handleQuickAddToCart = handleQuickAddToCart;
+window.viewProductDetails = viewProductDetails;
+
 document.addEventListener('DOMContentLoaded', async () => {
     const productsContainer = document.getElementById('productsContainer');
     const errorElement = document.getElementById('productsError');
     const productsCount = document.getElementById('productsCount');
-    const activeFiltersContainer = document.getElementById('activeFiltersContainer');
-    const categoryFilter = document.getElementById('categoryFilter');
-    const minPriceInput = document.getElementById('minPrice');
-    const maxPriceInput = document.getElementById('maxPrice');
-    const applyFiltersButton = document.getElementById('applyFilters');
-    const clearFiltersButton = document.getElementById('clearFilters');
-    const sortBySelect = document.getElementById('sortBySelect');
+    const catalogSectionTitle = document.getElementById('catalogSectionTitle');
+    const activeFilterChips = document.getElementById('activeFilterChips');
+    const activeChipsList = document.getElementById('activeChipsList');
 
-    // Header elements
+    // Sidebar Filter Elements
+    const sidebarCategoryList = document.getElementById('sidebarCategoryList');
+    const minPriceInput = document.getElementById('minPriceInput');
+    const maxPriceInput = document.getElementById('maxPriceInput');
+    const applyPriceBtn = document.getElementById('applyPriceBtn');
+    const clearAllFiltersBtn = document.getElementById('clearAllFiltersBtn');
+    const inStockToggle = document.getElementById('inStockToggle');
+    const pricePills = document.querySelectorAll('.price-pill');
+    const ratingRadios = document.querySelectorAll('input[name="ratingFilter"]');
+    const discountRadios = document.querySelectorAll('input[name="discountFilter"]');
+
+    // Sort Pills
+    const sortPills = document.querySelectorAll('.sort-pill');
+
+    // Header Elements
     const headerSearchInput = document.querySelector('.search-input');
     const headerSearchBtn = document.querySelector('.search-btn');
     const headerCategoryItems = document.querySelectorAll('.category-item');
+    const headerWishlistBtn = document.getElementById('headerWishlistBtn');
+
+    // View All Deals button
+    const viewAllDealsBtn = document.getElementById('viewAllDealsBtn');
+
+    // Initialize Hero Banner Carousel
+    initHeroCarousel();
+
+    // Initialize Deal Countdown Timer
+    initCountdownTimer();
+
+    // Initialize User Profile Header
+    initHeaderProfile();
+
+    // Initialize Wishlist Count Badge
+    updateWishlistCountDisplay();
+
+    // Update Cart Count if logged in
+    if (isLoggedIn() && isCustomer()) {
+        updateCartCount();
+    }
 
     // Load initial categories and products
     await loadCategories();
     await loadProducts();
 
-    // Update cart count if logged in
-    if (isLoggedIn() && isCustomer()) {
-        updateCartCount();
+    // ==========================================
+    // 1. Hero Carousel Controller
+    // ==========================================
+    function initHeroCarousel() {
+        const track = document.getElementById('heroCarouselTrack');
+        const prevBtn = document.getElementById('carouselPrevBtn');
+        const nextBtn = document.getElementById('carouselNextBtn');
+        const dots = document.querySelectorAll('#carouselDots .dot');
+        const wrapper = document.getElementById('heroCarouselWrapper');
+
+        if (!track || dots.length === 0) return;
+
+        let currentSlide = 0;
+        const totalSlides = dots.length;
+        let slideInterval = null;
+
+        function goToSlide(index) {
+            currentSlide = (index + totalSlides) % totalSlides;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            slideInterval = setInterval(nextSlide, 4500);
+        }
+
+        function stopAutoSlide() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoSlide();
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoSlide();
+            });
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const targetSlide = parseInt(e.target.dataset.slide, 10);
+                if (!isNaN(targetSlide)) {
+                    goToSlide(targetSlide);
+                    startAutoSlide();
+                }
+            });
+        });
+
+        if (wrapper) {
+            wrapper.addEventListener('mouseenter', stopAutoSlide);
+            wrapper.addEventListener('mouseleave', startAutoSlide);
+        }
+
+        startAutoSlide();
     }
 
-    // Initialize user profile header
-    initHeaderProfile();
+    // ==========================================
+    // 2. Deals Countdown Timer
+    // ==========================================
+    function initCountdownTimer() {
+        const timerEl = document.getElementById('dealCountdownTimer');
+        if (!timerEl) return;
 
-    // Connect Filter Events
-    if (applyFiltersButton) {
-        applyFiltersButton.addEventListener('click', applyCatalogFilters);
+        function updateTimer() {
+            const now = new Date();
+            const midnight = new Date(now);
+            midnight.setHours(24, 0, 0, 0);
+            let diff = Math.floor((midnight - now) / 1000);
+            if (diff <= 0) diff = 86400;
+
+            const hours = String(Math.floor(diff / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+            const seconds = String(diff % 60).padStart(2, '0');
+
+            timerEl.textContent = `${hours} : ${minutes} : ${seconds}`;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
     }
 
-    if (clearFiltersButton) {
-        clearFiltersButton.addEventListener('click', resetAllFilters);
+    // ==========================================
+    // 3. Deals of the Day Spotlight Rail
+    // ==========================================
+    function populateDealsSpotlight(products) {
+        const spotlightRail = document.getElementById('spotlightDealsRail');
+        if (!spotlightRail) return;
+
+        if (!products || products.length === 0) {
+            spotlightRail.innerHTML = '<div style="padding: 1rem; color: #64748b; font-size: 0.85rem;">Deals refreshed daily. Check back soon!</div>';
+            return;
+        }
+
+        // Pick top 6 products with best discounts
+        const deals = [...products]
+            .map(p => ({ product: p, metrics: getProductMetrics(p) }))
+            .sort((a, b) => b.metrics.discountPercent - a.metrics.discountPercent)
+            .slice(0, 6);
+
+        spotlightRail.innerHTML = '';
+
+        deals.forEach(({ product, metrics }) => {
+            const visual = getCategoryVisual(product.categoryName, product.name);
+            const item = document.createElement('div');
+            item.className = 'spotlight-deal-item';
+            item.innerHTML = `
+                <span class="spotlight-deal-badge">${metrics.discountPercent}% OFF</span>
+                <div class="spotlight-deal-icon" style="color: #2874f0;">
+                    ${visual.icon}
+                </div>
+                <div class="spotlight-deal-name" title="${escapeHtml(product.name)}">${escapeHtml(product.name)}</div>
+                <div class="spotlight-deal-price">${formatCurrency(product.price)}</div>
+                <button class="spotlight-deal-btn">Grab Deal</button>
+            `;
+
+            item.addEventListener('click', () => {
+                viewProductDetails(product.id);
+            });
+
+            spotlightRail.appendChild(item);
+        });
     }
 
-    // Connect Sorting Event
-    if (sortBySelect) {
-        sortBySelect.addEventListener('change', (e) => {
-            currentSort = e.target.value;
+    if (viewAllDealsBtn) {
+        viewAllDealsBtn.addEventListener('click', () => {
+            activeFilters.minDiscount = 20;
+            const targetRadio = document.querySelector('input[name="discountFilter"][value="20"]');
+            if (targetRadio) targetRadio.checked = true;
+            applyLocalFilters();
+            scrollToCatalog();
+        });
+    }
+
+    // ==========================================
+    // 4. Data Fetching
+    // ==========================================
+    async function loadCategories() {
+        try {
+            const categories = await API.categories.getAll();
+            allCategories = categories || [];
+            populateSidebarCategories(allCategories);
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+
+    async function loadProducts() {
+        showLoading(productsContainer, 'Loading products...');
+        if (errorElement) {
+            errorElement.innerHTML = '';
+            errorElement.classList.add('hidden');
+        }
+
+        try {
+            allProducts = await API.products.getAll();
+            currentFilteredProducts = [...allProducts];
+            populateSidebarCategories(allCategories);
+            populateDealsSpotlight(allProducts);
             renderSortedProducts();
+        } catch (error) {
+            if (errorElement) handleApiError(error, errorElement);
+            showError(productsContainer, 'Unable to load products', () => loadProducts());
+        }
+    }
+
+    // ==========================================
+    // 5. Sidebar Categories List
+    // ==========================================
+    function populateSidebarCategories(categories) {
+        if (!sidebarCategoryList) return;
+
+        sidebarCategoryList.innerHTML = '';
+
+        // "All Categories" option
+        const allItem = document.createElement('div');
+        allItem.className = `category-filter-item ${!activeFilters.categoryId ? 'active' : ''}`;
+        allItem.innerHTML = `
+            <span>All Categories</span>
+            <span class="cat-item-count">${allProducts.length}</span>
+        `;
+        allItem.addEventListener('click', () => {
+            activeFilters.categoryId = '';
+            syncHeaderCategoryActive('');
+            applyLocalFilters();
+        });
+        sidebarCategoryList.appendChild(allItem);
+
+        // Individual Categories
+        categories.forEach(cat => {
+            const catCount = allProducts.filter(p => String(p.categoryId) === String(cat.id)).length;
+            const item = document.createElement('div');
+            const isActive = String(activeFilters.categoryId) === String(cat.id);
+            item.className = `category-filter-item ${isActive ? 'active' : ''}`;
+            item.innerHTML = `
+                <span>${escapeHtml(cat.name)}</span>
+                <span class="cat-item-count">${catCount}</span>
+            `;
+
+            item.addEventListener('click', () => {
+                if (String(activeFilters.categoryId) === String(cat.id)) {
+                    activeFilters.categoryId = '';
+                    syncHeaderCategoryActive('');
+                } else {
+                    activeFilters.categoryId = String(cat.id);
+                    syncHeaderCategoryActive(cat.name);
+                }
+                applyLocalFilters();
+            });
+
+            sidebarCategoryList.appendChild(item);
+        });
+    }
+
+    // ==========================================
+    // 6. Filter Event Listeners
+    // ==========================================
+
+    // Price presets pills
+    pricePills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            const min = pill.dataset.min ? parseFloat(pill.dataset.min) : null;
+            const max = pill.dataset.max ? parseFloat(pill.dataset.max) : null;
+
+            if (pill.classList.contains('active')) {
+                pill.classList.remove('active');
+                activeFilters.minPrice = null;
+                activeFilters.maxPrice = null;
+                if (minPriceInput) minPriceInput.value = '';
+                if (maxPriceInput) maxPriceInput.value = '';
+            } else {
+                pricePills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeFilters.minPrice = min;
+                activeFilters.maxPrice = max;
+                if (minPriceInput) minPriceInput.value = min !== null ? min : '';
+                if (maxPriceInput) maxPriceInput.value = max !== null ? max : '';
+            }
+
+            applyLocalFilters();
+        });
+    });
+
+    // Custom price apply button
+    if (applyPriceBtn) {
+        applyPriceBtn.addEventListener('click', handleCustomPriceApply);
+    }
+
+    if (minPriceInput) {
+        minPriceInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleCustomPriceApply();
+        });
+    }
+
+    if (maxPriceInput) {
+        maxPriceInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleCustomPriceApply();
+        });
+    }
+
+    function handleCustomPriceApply() {
+        const minVal = minPriceInput && minPriceInput.value.trim() !== '' ? parseFloat(minPriceInput.value.trim()) : null;
+        const maxVal = maxPriceInput && maxPriceInput.value.trim() !== '' ? parseFloat(maxPriceInput.value.trim()) : null;
+
+        activeFilters.minPrice = minVal !== null && !isNaN(minVal) ? minVal : null;
+        activeFilters.maxPrice = maxVal !== null && !isNaN(maxVal) ? maxVal : null;
+
+        // Clear preset pills
+        pricePills.forEach(p => p.classList.remove('active'));
+
+        applyLocalFilters();
+    }
+
+    // Customer Ratings Filter
+    ratingRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                activeFilters.minRating = parseFloat(e.target.value);
+                applyLocalFilters();
+            }
+        });
+    });
+
+    // Discount Filter
+    discountRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                activeFilters.minDiscount = parseFloat(e.target.value);
+                applyLocalFilters();
+            }
+        });
+    });
+
+    // In Stock Only Toggle
+    if (inStockToggle) {
+        inStockToggle.addEventListener('change', (e) => {
+            activeFilters.inStockOnly = e.target.checked;
+            applyLocalFilters();
+        });
+    }
+
+    // Clear All Filters
+    if (clearAllFiltersBtn) {
+        clearAllFiltersBtn.addEventListener('click', resetAllFilters);
+    }
+
+    // Sort Pills
+    sortPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            sortPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            currentSort = pill.dataset.sort || 'popularity';
+            renderSortedProducts();
+        });
+    });
+
+    // Wishlist Button in Header
+    if (headerWishlistBtn) {
+        headerWishlistBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showingWishlistOnly = !showingWishlistOnly;
+            headerWishlistBtn.classList.toggle('active', showingWishlistOnly);
+
+            if (showingWishlistOnly) {
+                if (typeof showMessage === 'function') {
+                    showMessage('Filtering Wishlisted Products', 'info');
+                }
+            }
+            applyLocalFilters();
+            scrollToCatalog();
         });
     }
 
@@ -255,64 +653,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    async function loadCategories() {
-        try {
-            const categories = await API.categories.getAll();
-            allCategories = categories || [];
-            populateCategoryFilter(allCategories);
-        } catch (error) {
-            console.error('Error loading categories:', error);
-        }
-    }
-
-    function populateCategoryFilter(categories) {
-        if (!categoryFilter) return;
-        categoryFilter.innerHTML = '<option value="">All Categories</option>';
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.textContent = category.name;
-            categoryFilter.appendChild(option);
-        });
-    }
-
-    async function loadProducts() {
-        showLoading(productsContainer, 'Loading products...');
-        if (errorElement) {
-            errorElement.innerHTML = '';
-            errorElement.classList.add('hidden');
-        }
-
-        try {
-            allProducts = await API.products.getAll();
-            currentFilteredProducts = [...allProducts];
-            renderSortedProducts();
-        } catch (error) {
-            if (errorElement) handleApiError(error, errorElement);
-            showError(productsContainer, 'Unable to load products', () => loadProducts());
-        }
-    }
-
     function handleSearchQuery(searchTerm) {
         activeFilters.search = searchTerm;
         applyLocalFilters();
-
-        // Smooth scroll to catalog toolbar
-        const toolbar = document.querySelector('.catalog-toolbar');
-        if (toolbar) {
-            toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        scrollToCatalog();
     }
 
     function handleHeaderCategoryClick(catName) {
         if (!catName || catName === 'For You') {
             activeFilters.categoryId = '';
-            if (categoryFilter) categoryFilter.value = '';
+            syncHeaderCategoryActive('');
             applyLocalFilters();
+            scrollToCatalog();
             return;
         }
 
-        // Match category name against allCategories
         const normalized = catName.toLowerCase().replace(/[^a-z0-9]/g, '');
         const matched = allCategories.find(c => {
             const cNorm = c.name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -321,38 +676,59 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (matched) {
             activeFilters.categoryId = String(matched.id);
-            if (categoryFilter) categoryFilter.value = String(matched.id);
+            syncHeaderCategoryActive(matched.name);
         } else {
-            // Filter by name or clear
-            activeFilters.categoryId = '';
-            if (categoryFilter) categoryFilter.value = '';
+            // Find products with matching category name or clear
+            const altMatch = allCategories.find(c => c.name.toLowerCase().includes(normalized.slice(0, 4)));
+            if (altMatch) {
+                activeFilters.categoryId = String(altMatch.id);
+                syncHeaderCategoryActive(altMatch.name);
+            } else {
+                activeFilters.categoryId = '';
+                syncHeaderCategoryActive('');
+            }
         }
 
         applyLocalFilters();
+        scrollToCatalog();
+    }
 
-        // Smooth scroll to catalog
-        const toolbar = document.querySelector('.catalog-toolbar');
+    // Make handleHeaderCategoryClick accessible globally for banner buttons
+    window.handleHeaderCategoryClick = handleHeaderCategoryClick;
+
+    function syncHeaderCategoryActive(catName) {
+        headerCategoryItems.forEach(item => {
+            const name = item.querySelector('.category-name')?.textContent.trim();
+            if (!catName && (name === 'For You' || !name)) {
+                item.classList.add('active');
+            } else if (catName && name && (name.toLowerCase().includes(catName.toLowerCase().slice(0, 4)) || catName.toLowerCase().includes(name.toLowerCase().slice(0, 4)))) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    function scrollToCatalog() {
+        const toolbar = document.querySelector('.catalog-toolbar-card');
         if (toolbar) {
             toolbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
-    function applyCatalogFilters() {
-        const catId = categoryFilter ? categoryFilter.value : '';
-        const minP = minPriceInput && minPriceInput.value.trim() !== '' ? parseFloat(minPriceInput.value.trim()) : null;
-        const maxP = maxPriceInput && maxPriceInput.value.trim() !== '' ? parseFloat(maxPriceInput.value.trim()) : null;
-
-        activeFilters.categoryId = catId;
-        activeFilters.minPrice = minP;
-        activeFilters.maxPrice = maxP;
-
-        applyLocalFilters();
-    }
-
+    // ==========================================
+    // 7. Filter Execution
+    // ==========================================
     function applyLocalFilters() {
         let results = [...allProducts];
 
-        // 1. Search filter
+        // 1. Wishlist Only filter
+        if (showingWishlistOnly) {
+            const wishlist = getWishlist();
+            results = results.filter(p => wishlist.includes(String(p.id)));
+        }
+
+        // 2. Search query filter
         if (activeFilters.search) {
             const q = activeFilters.search.toLowerCase();
             results = results.filter(p =>
@@ -363,12 +739,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             );
         }
 
-        // 2. Category filter
+        // 3. Category filter
         if (activeFilters.categoryId) {
             results = results.filter(p => String(p.categoryId) === String(activeFilters.categoryId));
         }
 
-        // 3. Price filter
+        // 4. Price filter
         if (activeFilters.minPrice !== null && !isNaN(activeFilters.minPrice)) {
             results = results.filter(p => Number(p.price) >= activeFilters.minPrice);
         }
@@ -376,15 +752,73 @@ document.addEventListener('DOMContentLoaded', async () => {
             results = results.filter(p => Number(p.price) <= activeFilters.maxPrice);
         }
 
+        // 5. Customer Rating filter
+        if (activeFilters.minRating !== null && !isNaN(activeFilters.minRating)) {
+            results = results.filter(p => {
+                const m = getProductMetrics(p);
+                return Number(m.rating) >= activeFilters.minRating;
+            });
+        }
+
+        // 6. Discount filter
+        if (activeFilters.minDiscount !== null && !isNaN(activeFilters.minDiscount)) {
+            results = results.filter(p => {
+                const m = getProductMetrics(p);
+                return Number(m.discountPercent) >= activeFilters.minDiscount;
+            });
+        }
+
+        // 7. In-Stock Only filter
+        if (activeFilters.inStockOnly) {
+            results = results.filter(p => p.quantity > 0);
+        }
+
         currentFilteredProducts = results;
-        renderSortedProducts();
+
+        // Update UI states
+        populateSidebarCategories(allCategories);
+        updateCatalogHeader();
         updateActiveFilterChips();
+        renderSortedProducts();
     }
 
+    function updateCatalogHeader() {
+        if (catalogSectionTitle) {
+            if (showingWishlistOnly) {
+                catalogSectionTitle.textContent = 'My Wishlist';
+            } else if (activeFilters.search) {
+                catalogSectionTitle.textContent = `Results for "${activeFilters.search}"`;
+            } else if (activeFilters.categoryId) {
+                const cat = allCategories.find(c => String(c.id) === String(activeFilters.categoryId));
+                catalogSectionTitle.textContent = cat ? cat.name : 'Category Products';
+            } else {
+                catalogSectionTitle.textContent = 'All Products';
+            }
+        }
+
+        if (productsCount) {
+            productsCount.textContent = `Showing ${currentFilteredProducts.length} of ${allProducts.length} items`;
+        }
+    }
+
+    // ==========================================
+    // 8. Active Filter Chips
+    // ==========================================
     function updateActiveFilterChips() {
-        if (!activeFiltersContainer) return;
+        if (!activeFilterChips || !activeChipsList) return;
 
         const chips = [];
+
+        if (showingWishlistOnly) {
+            chips.push({
+                label: 'Wishlisted Only',
+                remove: () => {
+                    showingWishlistOnly = false;
+                    if (headerWishlistBtn) headerWishlistBtn.classList.remove('active');
+                    applyLocalFilters();
+                }
+            });
+        }
 
         if (activeFilters.search) {
             chips.push({
@@ -403,10 +837,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 label: `Category: ${cat ? cat.name : activeFilters.categoryId}`,
                 remove: () => {
                     activeFilters.categoryId = '';
-                    if (categoryFilter) categoryFilter.value = '';
-                    // Reset header category active state
-                    headerCategoryItems.forEach(btn => btn.classList.remove('active'));
-                    if (headerCategoryItems[0]) headerCategoryItems[0].classList.add('active');
+                    syncHeaderCategoryActive('');
                     applyLocalFilters();
                 }
             });
@@ -422,27 +853,67 @@ document.addEventListener('DOMContentLoaded', async () => {
                     activeFilters.maxPrice = null;
                     if (minPriceInput) minPriceInput.value = '';
                     if (maxPriceInput) maxPriceInput.value = '';
+                    pricePills.forEach(p => p.classList.remove('active'));
+                    applyLocalFilters();
+                }
+            });
+        }
+
+        if (activeFilters.minRating !== null) {
+            chips.push({
+                label: `Rating: ${activeFilters.minRating}★ & above`,
+                remove: () => {
+                    activeFilters.minRating = null;
+                    ratingRadios.forEach(r => r.checked = false);
+                    applyLocalFilters();
+                }
+            });
+        }
+
+        if (activeFilters.minDiscount !== null) {
+            chips.push({
+                label: `Min ${activeFilters.minDiscount}% Off`,
+                remove: () => {
+                    activeFilters.minDiscount = null;
+                    discountRadios.forEach(r => r.checked = false);
+                    applyLocalFilters();
+                }
+            });
+        }
+
+        if (activeFilters.inStockOnly) {
+            chips.push({
+                label: 'In Stock Only',
+                remove: () => {
+                    activeFilters.inStockOnly = false;
+                    if (inStockToggle) inStockToggle.checked = false;
                     applyLocalFilters();
                 }
             });
         }
 
         if (chips.length === 0) {
-            activeFiltersContainer.innerHTML = '';
-            activeFiltersContainer.classList.add('hidden');
+            activeChipsList.innerHTML = '';
+            activeFilterChips.style.display = 'none';
         } else {
-            activeFiltersContainer.classList.remove('hidden');
-            activeFiltersContainer.innerHTML = '';
+            activeFilterChips.style.display = 'flex';
+            activeChipsList.innerHTML = '';
             chips.forEach(chip => {
                 const chipEl = document.createElement('span');
-                chipEl.className = 'filter-chip';
-                chipEl.innerHTML = `<span>${escapeHtml(chip.label)}</span><span class="filter-chip-remove" title="Remove filter">✕</span>`;
-                chipEl.querySelector('.filter-chip-remove').addEventListener('click', chip.remove);
-                activeFiltersContainer.appendChild(chipEl);
+                chipEl.className = 'active-chip';
+                chipEl.innerHTML = `
+                    <span>${escapeHtml(chip.label)}</span>
+                    <span class="active-chip-remove" title="Remove filter">✕</span>
+                `;
+                chipEl.querySelector('.active-chip-remove').addEventListener('click', chip.remove);
+                activeChipsList.appendChild(chipEl);
             });
         }
     }
 
+    // ==========================================
+    // 9. Sorting & Rendering
+    // ==========================================
     function renderSortedProducts() {
         let sorted = [...currentFilteredProducts];
 
@@ -468,7 +939,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderProducts(products) {
         if (!products || products.length === 0) {
-            showEmpty(productsContainer, 'No products found', 'Try adjusting your filters or search terms');
+            productsContainer.innerHTML = `
+                <div class="catalog-empty-state">
+                    <div class="catalog-empty-icon"><i class="fa-solid fa-box-open"></i></div>
+                    <h3 class="catalog-empty-title">No products found</h3>
+                    <p class="catalog-empty-desc">We couldn't find any products matching your selected criteria. Try adjusting filters or search terms.</p>
+                    <button class="btn btn-primary" onclick="resetAllFilters()" style="background-color: #2874f0; border: none; font-weight: 700; padding: 0.5rem 1.25rem;">Clear All Filters</button>
+                </div>
+            `;
             return;
         }
 
@@ -488,7 +966,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function createProductCard(product, wishlist) {
         const card = document.createElement('div');
-        card.className = 'product-card';
+        card.className = 'modern-product-card';
 
         const isWishlisted = wishlist.includes(String(product.id));
         const metrics = getProductMetrics(product);
@@ -496,66 +974,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isOutOfStock = product.quantity === 0;
         const isLowStock = product.quantity > 0 && product.quantity < 5;
 
-        // Visual Media Block
-        const mediaHtml = `
-            <div class="product-image-box" onclick="viewProductDetails(${encodeURIComponent(product.id)})">
-                <div class="product-visual-backdrop" style="background: ${visual.bg};">
-                    <span class="product-visual-icon">${visual.icon}</span>
-                    <span class="product-visual-category">${escapeHtml(product.categoryName || visual.label)}</span>
-                </div>
-            </div>
-        `;
-
         // Stock and Delivery indicator
         let stockHtml = '';
         if (isOutOfStock) {
-            stockHtml = `<div class="product-stock-alert out-of-stock">Currently Out of Stock</div>`;
+            stockHtml = `<div class="card-stock-status out-of-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</div>`;
         } else if (isLowStock) {
-            stockHtml = `<div class="product-stock-alert"><i class="fa-solid fa-bolt"></i> Only ${product.quantity} left in stock!</div>`;
+            stockHtml = `<div class="card-stock-status low-stock"><i class="fa-solid fa-bolt"></i> Only ${product.quantity} left!</div>`;
         } else {
-            stockHtml = `<div class="product-delivery-tag"><span><i class="fa-solid fa-bolt"></i> Free Delivery</span></div>`;
+            stockHtml = `<div class="card-stock-status in-stock"><i class="fa-solid fa-truck-fast"></i> Free Delivery</div>`;
         }
 
         card.innerHTML = `
-            <button class="product-wishlist-btn ${isWishlisted ? 'active' : ''}" 
+            <button class="card-wishlist-btn ${isWishlisted ? 'active' : ''}" 
                     title="${isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}"
                     onclick="event.stopPropagation(); toggleWishlist(${product.id}, this)">
                 ${isWishlisted ? '<i class="fa-solid fa-heart" style="color: #ef4444;"></i>' : '<i class="fa-regular fa-heart"></i>'}
             </button>
 
-            <div class="product-deal-badge ${metrics.discountPercent > 30 ? 'badge-special' : ''}">
+            <span class="card-discount-tag ${metrics.discountPercent >= 30 ? 'badge-hot' : ''}">
                 ${metrics.discountPercent}% OFF
+            </span>
+
+            <div class="card-image-wrapper" onclick="viewProductDetails(${encodeURIComponent(product.id)})">
+                <div class="card-visual-backdrop" style="background: ${visual.bg};">
+                    <span class="card-visual-icon">${visual.icon}</span>
+                    <span class="card-visual-badge">${escapeHtml(product.categoryName || visual.label)}</span>
+                </div>
             </div>
 
-            ${mediaHtml}
-
-            <div class="product-details">
-                <div class="product-brand">${escapeHtml(product.brand || product.categoryName || 'JMART')}</div>
-                <h3 class="product-name" onclick="viewProductDetails(${encodeURIComponent(product.id)})" title="${escapeHtml(product.name)}">
+            <div class="card-body-details">
+                <span class="card-brand-name">${escapeHtml(product.brand || product.categoryName || 'JMART ASSURED')}</span>
+                <h3 class="card-product-title" onclick="viewProductDetails(${encodeURIComponent(product.id)})" title="${escapeHtml(product.name)}">
                     ${escapeHtml(product.name)}
                 </h3>
 
-                <div class="product-rating-row">
-                    <span class="rating-pill">
-                        ${metrics.rating} <span class="rating-star"><i class="fa-solid fa-star"></i></span>
+                <div class="card-rating-strip">
+                    <span class="card-rating-badge">
+                        ${metrics.rating} <i class="fa-solid fa-star"></i>
                     </span>
-                    <span class="review-count">(${metrics.reviewCount})</span>
-                    <span class="assured-badge"><i class="fa-solid fa-shield-halved"></i> Assured</span>
+                    <span class="card-reviews-count">(${metrics.reviewCount})</span>
+                    <span class="card-assured-logo"><i class="fa-solid fa-shield-halved"></i> Assured</span>
                 </div>
 
-                <div class="product-price-row">
-                    <span class="product-selling-price">${formatCurrency(product.price)}</span>
-                    <span class="product-mrp-price">${formatCurrency(metrics.mrp)}</span>
-                    <span class="product-discount-percent">${metrics.discountPercent}% off</span>
+                <div class="card-price-strip">
+                    <span class="card-selling-price">${formatCurrency(product.price)}</span>
+                    <span class="card-mrp-price">${formatCurrency(metrics.mrp)}</span>
+                    <span class="card-savings-percent">${metrics.discountPercent}% off</span>
                 </div>
 
                 ${stockHtml}
 
-                <div class="product-card-actions">
-                    <button class="btn-card-details" onclick="viewProductDetails(${encodeURIComponent(product.id)})">
+                <div class="card-action-buttons">
+                    <button class="btn-card-quick-details" onclick="viewProductDetails(${encodeURIComponent(product.id)})">
                         Details
                     </button>
-                    <button class="btn-card-cart ${isOutOfStock ? 'disabled' : ''}" 
+                    <button class="btn-card-quick-cart ${isOutOfStock ? 'disabled' : ''}" 
                             ${isOutOfStock ? 'disabled' : ''}
                             onclick="event.stopPropagation(); handleQuickAddToCart(${product.id}, this)">
                         ${isOutOfStock ? 'Out of Stock' : '<i class="fa-solid fa-cart-shopping"></i> Add'}
@@ -567,34 +1040,53 @@ document.addEventListener('DOMContentLoaded', async () => {
         return card;
     }
 
+    // ==========================================
+    // 10. Reset Filters
+    // ==========================================
     function resetAllFilters() {
+        showingWishlistOnly = false;
+        if (headerWishlistBtn) headerWishlistBtn.classList.remove('active');
+
         activeFilters = {
             search: '',
             categoryId: '',
             minPrice: null,
-            maxPrice: null
+            maxPrice: null,
+            minRating: null,
+            minDiscount: null,
+            inStockOnly: false
         };
 
         if (headerSearchInput) headerSearchInput.value = '';
-        if (categoryFilter) categoryFilter.value = '';
         if (minPriceInput) minPriceInput.value = '';
         if (maxPriceInput) maxPriceInput.value = '';
-        if (sortBySelect) sortBySelect.value = 'popularity';
+        if (inStockToggle) inStockToggle.checked = false;
+
+        pricePills.forEach(p => p.classList.remove('active'));
+        ratingRadios.forEach(r => r.checked = false);
+        discountRadios.forEach(r => r.checked = false);
+
+        sortPills.forEach(p => {
+            p.classList.toggle('active', p.dataset.sort === 'popularity');
+        });
         currentSort = 'popularity';
 
-        headerCategoryItems.forEach(btn => btn.classList.remove('active'));
-        if (headerCategoryItems[0]) headerCategoryItems[0].classList.add('active');
+        syncHeaderCategoryActive('');
 
         if (errorElement) {
             errorElement.innerHTML = '';
             errorElement.classList.add('hidden');
         }
 
-        currentFilteredProducts = [...allProducts];
-        renderSortedProducts();
-        updateActiveFilterChips();
+        applyLocalFilters();
     }
 
+    // Expose resetAllFilters globally
+    window.resetAllFilters = resetAllFilters;
+
+    // ==========================================
+    // 11. Profile & Dropdown
+    // ==========================================
     function initHeaderProfile() {
         const headerProfileBtn = document.getElementById('headerProfileBtn');
         const headerUserName = document.getElementById('headerUserName');

@@ -952,3 +952,384 @@ select.error {
     margin-bottom: 0;
     box-shadow: var(--shadow-lg);
 }
+
+/* ==========================================================================
+   Professional Black E-Commerce Footer (Flipkart/Amazon Benchmark)
+   ========================================================================== */
+.app-footer {
+    background-color: #0b0b0e;
+    color: #cbd5e1;
+    font-family: inherit;
+    border-top: 3px solid #2874f0;
+    position: relative;
+    z-index: 10;
+    margin-top: 3.5rem;
+}
+
+/* 1. Features / Value Propositions Bar */
+.app-footer .footer-features-bar {
+    background-color: #121217;
+    border-bottom: 1px solid #1f1f28;
+    padding: 1.75rem 0;
+}
+
+.app-footer .footer-features-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.app-footer .footer-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.app-footer .footer-feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(40, 116, 240, 0.12);
+    border: 1px solid rgba(40, 116, 240, 0.35);
+    color: #2874f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+}
+
+.app-footer .footer-feature-item:hover .footer-feature-icon {
+    background-color: #2874f0;
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+.app-footer .footer-feature-content h5 {
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    letter-spacing: 0.2px;
+}
+
+.app-footer .footer-feature-content p {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 2. Main Footer Multi-Column Grid */
+.app-footer .footer-main {
+    padding: 3rem 0 2rem;
+}
+
+.app-footer .footer-main-container {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1.3fr;
+    gap: 2.25rem;
+}
+
+.app-footer .footer-col-brand .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+
+.app-footer .footer-col-brand .footer-logo .logo-j {
+    background-color: #2874f0;
+    color: #ffe500;
+    font-size: 1.35rem;
+    font-weight: 800;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+.app-footer .footer-col-brand .footer-logo .logo-mart {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-left: 0.2rem;
+    letter-spacing: 0.5px;
+}
+
+.app-footer .footer-brand-bio {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+}
+
+.app-footer .footer-social-links {
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+}
+
+.app-footer .footer-social-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #1a1a22;
+    border: 1px solid #282834;
+    color: #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.app-footer .footer-social-btn:hover {
+    background-color: #2874f0;
+    color: #ffffff;
+    border-color: #2874f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 116, 240, 0.4);
+}
+
+.app-footer .footer-col-title {
+    color: #878787;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 1.15rem;
+}
+
+.app-footer .footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.app-footer .footer-link-list li {
+    margin-bottom: 0.65rem;
+}
+
+.app-footer .footer-link-list a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.app-footer .footer-link-list a:hover {
+    color: #ffe500;
+    transform: translateX(4px);
+}
+
+.app-footer .footer-badge-hiring {
+    background-color: #10b981;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-left: 0.35rem;
+}
+
+.app-footer .footer-col-contact .footer-address {
+    color: #94a3b8;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    border-left: 2px solid #2874f0;
+    padding-left: 0.75rem;
+}
+
+.app-footer .footer-col-contact .footer-address strong {
+    color: #f1f5f9;
+}
+
+.app-footer .footer-contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.84rem;
+    color: #94a3b8;
+}
+
+.app-footer .footer-contact-details div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.app-footer .footer-contact-details strong {
+    color: #ffffff;
+}
+
+.app-footer .footer-contact-details i {
+    color: #ffe500;
+}
+
+/* 3. Flipkart-Style Horizontal Service Bar */
+.app-footer .footer-service-bar {
+    background-color: #0e0e12;
+    border-top: 1px solid #1a1a24;
+    border-bottom: 1px solid #1a1a24;
+    padding: 1.15rem 0;
+}
+
+.app-footer .footer-service-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+}
+
+.app-footer .footer-service-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.app-footer .footer-service-item i {
+    color: #ffe500;
+    font-size: 1rem;
+}
+
+.app-footer .footer-service-item a {
+    color: #f1f5f9;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.app-footer .footer-service-item a:hover {
+    color: #ffe500;
+}
+
+.app-footer .footer-payment-methods {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.app-footer .payment-methods-label {
+    font-size: 0.78rem;
+    color: #878787;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.app-footer .payment-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.app-footer .payment-tag {
+    background-color: #171720;
+    border: 1px solid #262633;
+    color: #e2e8f0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1;
+}
+
+.app-footer .payment-tag i {
+    font-size: 0.95rem;
+}
+
+/* 4. Bottom Legal / Copyright Bar */
+.app-footer .footer-bottom-bar {
+    background-color: #060608;
+    padding: 1rem 0;
+}
+
+.app-footer .footer-bottom-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.app-footer .footer-copyright strong {
+    color: #cbd5e1;
+}
+
+.app-footer .footer-security-note {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.app-footer .footer-security-note i {
+    color: #10b981;
+}
+
+/* Responsive Footer Design */
+@media (max-width: 1100px) {
+    .app-footer .footer-features-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    
+    .app-footer .footer-main-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .app-footer .footer-col-contact {
+        grid-column: span 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-footer {
+        margin-top: 2rem;
+    }
+
+    .app-footer .footer-features-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .app-footer .footer-main-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .app-footer .footer-col-contact {
+        grid-column: span 1;
+    }
+
+    .app-footer .footer-service-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .app-footer .footer-bottom-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}

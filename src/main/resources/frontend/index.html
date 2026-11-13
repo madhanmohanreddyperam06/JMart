@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - JMart</title>
+    <title>JMart - Online Shopping Site</title>
     <link rel="icon" type="image/svg+xml" href="assets/Icons/j-solid-full.svg">
     <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -160,16 +160,438 @@
         </div>
     </header>
 
-    <main class="container products-page">
-        <div id="productsError" class="message message-error hidden"></div>
+    <main class="home-main-content">
+        <!-- 1. Hero Promotional Banner Carousel (Flipkart Benchmark) -->
+        <section class="hero-carousel-section container">
+            <div class="carousel-wrapper" id="heroCarouselWrapper">
+                <div class="carousel-track" id="heroCarouselTrack">
+                    <!-- Slide 1: Electronics Mega Sale -->
+                    <div class="carousel-slide active" style="background: linear-gradient(135deg, #0d3b66 0%, #001e3d 100%);">
+                        <div class="slide-content">
+                            <span class="slide-badge"><i class="fa-solid fa-bolt"></i> LIMITED TIME MEGA DEAL</span>
+                            <h2 class="slide-title">Best of Tech & Electronics</h2>
+                            <p class="slide-subtitle">Next-gen Laptops, Premium Audio & Gadgets starting at just ₹999. Extra 10% instant bank discount.</p>
+                            <div class="slide-tags">
+                                <span><i class="fa-solid fa-tag"></i> Up to 70% Off</span>
+                                <span><i class="fa-solid fa-shield-halved"></i> 1-Year Warranty</span>
+                                <span><i class="fa-solid fa-truck-fast"></i> Free Delivery</span>
+                            </div>
+                            <button class="btn slide-cta-btn" onclick="handleHeaderCategoryClick('Electronics')">
+                                Shop Tech Deals <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="slide-visual">
+                            <div class="visual-circle">
+                                <i class="fa-solid fa-laptop visual-icon-main"></i>
+                                <span class="visual-badge-floating"><i class="fa-solid fa-fire"></i> Flat 60% OFF</span>
+                            </div>
+                        </div>
+                    </div>
 
-        <div id="productsContainer">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Loading products...</p>
+                    <!-- Slide 2: Trending Fashion (Myntra Benchmark) -->
+                    <div class="carousel-slide" style="background: linear-gradient(135deg, #831843 0%, #4c0519 100%);">
+                        <div class="slide-content">
+                            <span class="slide-badge" style="background: rgba(244, 63, 94, 0.3); border-color: #f43f5e; color: #fda4af;"><i class="fa-solid fa-sparkles"></i> MYNTRA STYLE FESTIVAL</span>
+                            <h2 class="slide-title">Trending Styles & Luxury Wear</h2>
+                            <p class="slide-subtitle">Curated ethnic & western wear from top designer brands. Refresh your wardrobe today.</p>
+                            <div class="slide-tags">
+                                <span><i class="fa-solid fa-tag"></i> 50% - 80% Off</span>
+                                <span><i class="fa-solid fa-rotate-left"></i> Easy 7-Day Returns</span>
+                                <span><i class="fa-solid fa-heart"></i> Top Rated</span>
+                            </div>
+                            <button class="btn slide-cta-btn" style="background: #f43f5e; border-color: #f43f5e;" onclick="handleHeaderCategoryClick('Fashion')">
+                                Explore Collection <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="slide-visual">
+                            <div class="visual-circle" style="background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.3);">
+                                <i class="fa-solid fa-shirt visual-icon-main" style="color: #fda4af;"></i>
+                                <span class="visual-badge-floating" style="background: #f43f5e;"><i class="fa-solid fa-gem"></i> Premium Brands</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Smartphones & 5G -->
+                    <div class="carousel-slide" style="background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);">
+                        <div class="slide-content">
+                            <span class="slide-badge" style="background: rgba(59, 130, 246, 0.3); border-color: #3b82f6; color: #93c5fd;"><i class="fa-solid fa-mobile-screen-button"></i> 5G REVOLUTION</span>
+                            <h2 class="slide-title">Flagship Smartphones 2026</h2>
+                            <p class="slide-subtitle">Super retina AMOLED displays, ultra high-speed chips, and studio-grade camera sensors.</p>
+                            <div class="slide-tags">
+                                <span><i class="fa-solid fa-credit-card"></i> No Cost EMI</span>
+                                <span><i class="fa-solid fa-arrow-right-arrow-left"></i> Up to ₹10,000 Exchange</span>
+                            </div>
+                            <button class="btn slide-cta-btn" onclick="handleHeaderCategoryClick('Mobiles')">
+                                View Smartphones <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="slide-visual">
+                            <div class="visual-circle" style="background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.3);">
+                                <i class="fa-solid fa-mobile-screen visual-icon-main" style="color: #93c5fd;"></i>
+                                <span class="visual-badge-floating" style="background: #2563eb;"><i class="fa-solid fa-bolt"></i> 5G Speed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Home & Kitchen -->
+                    <div class="carousel-slide" style="background: linear-gradient(135deg, #14532d 0%, #052e16 100%);">
+                        <div class="slide-content">
+                            <span class="slide-badge" style="background: rgba(34, 197, 94, 0.3); border-color: #22c55e; color: #86efac;"><i class="fa-solid fa-house"></i> SUPER SAVER</span>
+                            <h2 class="slide-title">Home Decor & Modern Living</h2>
+                            <p class="slide-subtitle">Upgrade your comfort with stylish furniture, kitchen appliances and living room essentials.</p>
+                            <div class="slide-tags">
+                                <span><i class="fa-solid fa-tag"></i> Starts at ₹199</span>
+                                <span><i class="fa-solid fa-check"></i> Quality Verified</span>
+                            </div>
+                            <button class="btn slide-cta-btn" style="background: #16a34a; border-color: #16a34a;" onclick="handleHeaderCategoryClick('Furniture')">
+                                Shop Home Living <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <div class="slide-visual">
+                            <div class="visual-circle" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3);">
+                                <i class="fa-solid fa-chair visual-icon-main" style="color: #86efac;"></i>
+                                <span class="visual-badge-floating" style="background: #16a34a;"><i class="fa-solid fa-star"></i> Top Rated</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-arrow carousel-prev" id="carouselPrevBtn" aria-label="Previous Slide">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow carousel-next" id="carouselNextBtn" aria-label="Next Slide">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <!-- Carousel Dots -->
+                <div class="carousel-dots" id="carouselDots">
+                    <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+                    <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+                    <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+                    <button class="dot" data-slide="3" aria-label="Slide 4"></button>
+                </div>
             </div>
+        </section>
+
+        <!-- 2. Bank & Trust Offer Ticker Strip (Flipkart Benchmark) -->
+        <section class="bank-offers-strip container">
+            <div class="bank-offers-container">
+                <div class="bank-offer-item">
+                    <span class="offer-icon"><i class="fa-solid fa-credit-card"></i></span>
+                    <div class="offer-text">
+                        <strong>Bank Discount</strong>
+                        <span>10% Instant Off on HDFC, SBI & Axis</span>
+                    </div>
+                </div>
+                <div class="bank-offer-divider"></div>
+                <div class="bank-offer-item">
+                    <span class="offer-icon"><i class="fa-solid fa-truck-fast"></i></span>
+                    <div class="offer-text">
+                        <strong>Free Express Delivery</strong>
+                        <span>On orders over ₹499 across India</span>
+                    </div>
+                </div>
+                <div class="bank-offer-divider"></div>
+                <div class="bank-offer-item">
+                    <span class="offer-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <div class="offer-text">
+                        <strong>JMart Assured</strong>
+                        <span>100% Genuine & Quality Tested</span>
+                    </div>
+                </div>
+                <div class="bank-offer-divider"></div>
+                <div class="bank-offer-item">
+                    <span class="offer-icon"><i class="fa-solid fa-rotate-left"></i></span>
+                    <div class="offer-text">
+                        <strong>7-Day Returns</strong>
+                        <span>Doorstep pickup with instant refunds</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Deals of the Day Spotlight Rail (Flipkart Benchmark) -->
+        <section class="deals-spotlight-section container">
+            <div class="spotlight-card">
+                <div class="spotlight-header">
+                    <div class="spotlight-title-group">
+                        <span class="spotlight-badge"><i class="fa-solid fa-bolt"></i> HOT DEAL</span>
+                        <h3 class="spotlight-title">Deals of the Day</h3>
+                        <div class="countdown-box">
+                            <i class="fa-regular fa-clock"></i>
+                            <span class="countdown-label">Ends in:</span>
+                            <span class="countdown-timer" id="dealCountdownTimer">05 : 42 : 18</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-view-all" id="viewAllDealsBtn">
+                        VIEW ALL <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="spotlight-rail-container" id="spotlightDealsRail">
+                    <div class="spotlight-loading">
+                        <div class="spinner-border text-primary spinner-border-sm"></div>
+                        <span>Loading top deals...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Two-Column Storefront Layout (Filter Sidebar + Main Catalog) -->
+        <div class="storefront-layout container">
+            <!-- Left Filter Sidebar (Flipkart & Myntra Benchmark) -->
+            <aside class="catalog-sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Filters</span>
+                    </div>
+                    <button class="btn-clear-filters" id="clearAllFiltersBtn">Clear All</button>
+                </div>
+
+                <!-- Category Filter Group -->
+                <div class="sidebar-filter-group">
+                    <h4 class="filter-group-heading">Categories</h4>
+                    <div class="category-filter-list" id="sidebarCategoryList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Price Range Filter Group -->
+                <div class="sidebar-filter-group">
+                    <h4 class="filter-group-heading">Price Range</h4>
+                    <div class="price-presets-pills">
+                        <button class="price-pill" data-min="0" data-max="500">Under ₹500</button>
+                        <button class="price-pill" data-min="500" data-max="1000">₹500 - ₹1K</button>
+                        <button class="price-pill" data-min="1000" data-max="2500">₹1K - ₹2.5K</button>
+                        <button class="price-pill" data-min="2500" data-max="">₹2500+</button>
+                    </div>
+                    <div class="price-custom-inputs">
+                        <div class="price-input-box">
+                            <span>₹</span>
+                            <input type="number" id="minPriceInput" placeholder="Min" min="0">
+                        </div>
+                        <span class="price-to-text">to</span>
+                        <div class="price-input-box">
+                            <span>₹</span>
+                            <input type="number" id="maxPriceInput" placeholder="Max" min="0">
+                        </div>
+                        <button class="btn-apply-price" id="applyPriceBtn" title="Apply Price Filter">Go</button>
+                    </div>
+                </div>
+
+                <!-- Customer Ratings Filter Group -->
+                <div class="sidebar-filter-group">
+                    <h4 class="filter-group-heading">Customer Ratings</h4>
+                    <div class="rating-filter-options">
+                        <label class="rating-filter-label">
+                            <input type="radio" name="ratingFilter" value="4" class="rating-radio">
+                            <span class="rating-stars-preview">
+                                <span class="rating-stars-badge">4 <i class="fa-solid fa-star"></i></span> & above
+                            </span>
+                        </label>
+                        <label class="rating-filter-label">
+                            <input type="radio" name="ratingFilter" value="3" class="rating-radio">
+                            <span class="rating-stars-preview">
+                                <span class="rating-stars-badge">3 <i class="fa-solid fa-star"></i></span> & above
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Discount Filter Group -->
+                <div class="sidebar-filter-group">
+                    <h4 class="filter-group-heading">Discount</h4>
+                    <div class="discount-filter-options">
+                        <label class="discount-filter-label">
+                            <input type="radio" name="discountFilter" value="30" class="discount-radio">
+                            <span>30% or more</span>
+                        </label>
+                        <label class="discount-filter-label">
+                            <input type="radio" name="discountFilter" value="20" class="discount-radio">
+                            <span>20% or more</span>
+                        </label>
+                        <label class="discount-filter-label">
+                            <input type="radio" name="discountFilter" value="10" class="discount-radio">
+                            <span>10% or more</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Availability Toggle -->
+                <div class="sidebar-filter-group">
+                    <div class="availability-toggle-row">
+                        <span class="availability-label">In Stock Only</span>
+                        <label class="switch">
+                            <input type="checkbox" id="inStockToggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Main Catalog Area -->
+            <section class="catalog-main">
+                <!-- Catalog Toolbar & Sort Bar (Myntra/Flipkart Benchmark) -->
+                <div class="catalog-toolbar-card">
+                    <div class="toolbar-top-row">
+                        <div class="toolbar-count-area">
+                            <h2 class="catalog-heading" id="catalogSectionTitle">All Products</h2>
+                            <span class="catalog-count-badge" id="productsCount">Loading products...</span>
+                        </div>
+                        <div class="sort-pills-bar">
+                            <span class="sort-label">Sort By:</span>
+                            <button class="sort-pill active" data-sort="popularity">Popularity</button>
+                            <button class="sort-pill" data-sort="price-asc">Price: Low to High</button>
+                            <button class="sort-pill" data-sort="price-desc">Price: High to Low</button>
+                            <button class="sort-pill" data-sort="rating">Customer Rating</button>
+                            <button class="sort-pill" data-sort="name-asc">Alphabetical</button>
+                        </div>
+                    </div>
+
+                    <!-- Active Filter Chips Tag Area -->
+                    <div class="active-filter-chips-container" id="activeFilterChips" style="display: none;">
+                        <span class="active-chips-label">Active Filters:</span>
+                        <div class="active-chips-list" id="activeChipsList"></div>
+                    </div>
+                </div>
+
+                <!-- Error Notification Element -->
+                <div id="productsError" class="message message-error hidden"></div>
+
+                <!-- Products Grid Container -->
+                <div id="productsContainer" class="catalog-grid-wrapper">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading products...</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Professional Black Footer -->
+    <footer class="app-footer">
+        <!-- 1. Main Footer Links Grid -->
+        <div class="footer-main">
+            <div class="container footer-main-container">
+                <!-- Brand Bio -->
+                <div class="footer-col footer-col-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-j">J</span><span class="logo-mart">Mart</span>
+                    </a>
+                    <p class="footer-brand-bio">
+                        India's premier e-commerce marketplace delivering quality, authenticity, and unbeatable value across electronics, fashion, lifestyle, and home essentials.
+                    </p>
+                    <div class="footer-social-links">
+                        <a href="#" class="footer-social-btn" aria-label="Facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="footer-social-btn" aria-label="Twitter" title="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="footer-social-btn" aria-label="Instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="footer-social-btn" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="footer-social-btn" aria-label="YouTube" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column: About -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">ABOUT</h4>
+                    <ul class="footer-link-list">
+                        <li><a href="landing.html">About Us</a></li>
+                        <li><a href="#">Careers <span class="footer-badge-hiring">Hiring</span></a></li>
+                        <li><a href="#">Press & Releases</a></li>
+                        <li><a href="#">JMart Stories</a></li>
+                        <li><a href="#">Corporate Information</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: Help -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">HELP</h4>
+                    <ul class="footer-link-list">
+                        <li><a href="#">Payments & Wallets</a></li>
+                        <li><a href="#">Shipping & Tracking</a></li>
+                        <li><a href="#">Cancellation & Returns</a></li>
+                        <li><a href="#">FAQ & Help Center</a></li>
+                        <li><a href="#">Report Infringement</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: Policy -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title">CONSUMER POLICY</h4>
+                    <ul class="footer-link-list">
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Security & Privacy</a></li>
+                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="#">Grievance Redressal</a></li>
+                        <li><a href="#">EPR Compliance</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column: Registered Address -->
+                <div class="footer-col footer-col-contact">
+                    <h4 class="footer-col-title">MAIL US / REGISTERED OFFICE</h4>
+                    <p class="footer-address">
+                        <strong>JMart Internet Private Limited,</strong><br>
+                        Buildings Alyssa, Begonia & Clove Embassy Tech Village,<br>
+                        Outer Ring Road, Devarabeesanahalli Village,<br>
+                        Bengaluru, 560103, Karnataka, India.<br>
+                        <strong>CIN:</strong> U51109KA2012PTC066107
+                    </p>
+                    <div class="footer-contact-details">
+                        <div><i class="fa-solid fa-phone"></i> <span>Helpline: <strong>1800 208 9898</strong></span></div>
+                        <div><i class="fa-solid fa-envelope"></i> <span>Support: <strong>support@jmart.com</strong></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Flipkart-Style Mid Service Bar -->
+        <div class="footer-service-bar">
+            <div class="container footer-service-container">
+                <div class="footer-service-item">
+                    <i class="fa-solid fa-store"></i>
+                    <span><a href="#">Become a Seller</a></span>
+                </div>
+                <div class="footer-service-item">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span><a href="#">Advertise</a></span>
+                </div>
+                <div class="footer-service-item">
+                    <i class="fa-solid fa-gift"></i>
+                    <span><a href="#">Gift Cards</a></span>
+                </div>
+                <div class="footer-service-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span><a href="#">Help Center</a></span>
+                </div>
+                <div class="footer-payment-methods">
+                    <span class="payment-methods-label">100% Secure Payment:</span>
+                    <div class="payment-icons">
+                        <span class="payment-tag" title="Visa"><i class="fa-brands fa-cc-visa"></i> Visa</span>
+                        <span class="payment-tag" title="Mastercard"><i class="fa-brands fa-cc-mastercard"></i> Mastercard</span>
+                        <span class="payment-tag" title="RuPay"><i class="fa-solid fa-credit-card"></i> RuPay</span>
+                        <span class="payment-tag" title="UPI"><i class="fa-solid fa-mobile-screen"></i> UPI</span>
+                        <span class="payment-tag" title="Net Banking"><i class="fa-solid fa-building-columns"></i> NetBanking</span>
+                        <span class="payment-tag" title="Cash on Delivery"><i class="fa-solid fa-money-bill-wave"></i> COD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Bottom Legal / Copyright Bar -->
+        <div class="footer-bottom-bar">
+            <div class="container footer-bottom-container">
+                <div class="footer-copyright">
+                    © 2024–2026 <strong>JMart</strong>. All rights reserved.
+                </div>
+                <div class="footer-security-note">
+                    <i class="fa-solid fa-lock"></i> 256-Bit SSL Bank-Grade Encryption
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
