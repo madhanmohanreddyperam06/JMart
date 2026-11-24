@@ -1,34 +1,34 @@
-# 🛒 JMart - E-Commerce Platform Application
+# JMart - E-Commerce Platform Application
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://www.w3.org/html/)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://www.w3.org/Style/CSS/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://www.javascript.com/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
-[![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![Maven](https://img.shields.io/badge/Maven-3.9-red?style=for-the-badge&logo=apache-maven&logoColor=white)](https://maven.apache.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://opensource.org/licenses/MIT)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat-square&logo=bootstrap&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17-007396?style=flat-square&logoColor=white&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTQ3LjYxNyA5OC4xMnMtNC43NjcgMi43NzQgMy4zOTcgMy43MWM5Ljg5MiAxLjEzIDE0Ljk0Ny45NjggMjUuODQ1LTEuMDkyIDAgMCAyLjg3MSAxLjc5NSA2Ljg3MyAzLjM1MS0yNC40MzkgMTAuNDctNTUuMzA4LS42MDctMzYuMTE1LTUuOTY5em0tMi45ODgtMTMuNjY1cy01LjM0OCAzLjk1OSAyLjgyMyA0LjgwNWMxMC41NjcgMS4wOTEgMTguOTEgMS4xOCAzMy4zNTQtMS42IDAgMCAxLjk5MyAyLjAyNSA1LjEzMiAzLjEzMS0yOS41NDIgOC42NC02Mi40NDYuNjgtNDEuMzA5LTYuMzM2eiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNNjkuODAyIDYxLjI3MWM2LjAyNSA2LjkzNS0xLjU4IDEzLjE3LTEuNTggMTMuMTdzMTUuMjg5LTcuODkxIDguMjY5LTE3Ljc3N2MtNi41NTktOS4yMTUtMTEuNTg3LTEzLjc5MiAxNS42MzUtMjkuNTggMCAuMDAxLTQyLjczMSAxMC42Ny0yMi4zMjQgMzQuMTg3eiIvPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNMTAyLjEyMyAxMDguMjI5czMuNTI5IDIuOTEtMy44ODggNS4xNTljLTE0LjEwMiA0LjI3Mi01OC43MDYgNS41Ni03MS4wOTQuMTcxLTQuNDUxLTEuOTM4IDMuODk5LTQuNjI1IDYuNTI2LTUuMTkyIDIuNzM5LS41OTMgNC4zMDMtLjQ4NSA0LjMwMy0uNDg1LTQuOTUzLTMuNDg3LTMyLjAxMyA2Ljg1LTEzLjc0MyA5LjgxNSA0OS44MjEgOC4wNzYgOTAuODE3LTMuNjM3IDc3Ljg5Ni05LjQ2OHpNNDkuOTEyIDcwLjI5NHMtMjIuNjg2IDUuMzg5LTguMDMzIDcuMzQ4YzYuMTg4LjgyOCAxOC41MTguNjM4IDMwLjAxMS0uMzI2IDkuMzktLjc4OSAxOC44MTMtMi40NzQgMTguODEzLTIuNDc0cy0zLjMwOCAxLjQxOS01LjcwNCAzLjA1M2MtMjMuMDQyIDYuMDYxLTY3LjU0NCAzLjIzOC01NC43MzEtMi45NTggMTAuODMyLTUuMjM5IDE5LjY0NC00LjY0MyAxOS42NDQtNC42NDN6bTQwLjY5NyAyMi43NDdjMjMuNDIxLTEyLjE2NyAxMi41OTEtMjMuODYgNS4wMzItMjIuMjg1LTEuODQ4LjM4NS0yLjY3Ny43Mi0yLjY3Ny43MnMuNjg4LTEuMDc5IDItMS41NDNjMTQuOTUzLTUuMjU1IDI2LjQ1MSAxNS41MDMtNC44MjMgMjMuNzI1IDAtLjAwMi4zNTktLjMyNy40NjgtLjYxN3oiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTc2LjQ5MSAxLjU4N1M4OS40NTkgMTQuNTYzIDY0LjE4OCAzNC41MWMtMjAuMjY2IDE2LjAwNi00LjYyMSAyNS4xMy0uMDA3IDM1LjU1OS0xMS44MzEtMTAuNjczLTIwLjUwOS0yMC4wNy0xNC42ODgtMjguODE1QzU4LjA0MSAyOC40MiA4MS43MjIgMjIuMTk1IDc2LjQ5MSAxLjU4N3oiLz48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTUyLjIxNCAxMjYuMDIxYzIyLjQ3NiAxLjQzNyA1Ny0uOCA1Ny44MTctMTEuNDM2IDAgMC0xLjU3MSA0LjAzMi0xOC41NzcgNy4yMzEtMTkuMTg2IDMuNjEyLTQyLjg1NCAzLjE5MS01Ni44ODcuODc0IDAgLjAwMSAyLjg3NSAyLjM4MSAxNy42NDcgMy4zMzF6Ii8+PC9zdmc+)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen?style=flat-square&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.9-red?style=flat-square&logo=apachemaven&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 A production-ready e-commerce platform with comprehensive backend API and modern frontend. Built with Java Spring Boot and featuring Razorpay payment integration, JWT authentication, and a beautiful animated landing page.
 
-## ✨ Features
+## Features
 
-- 🔐 **JWT Authentication** - Secure token-based authentication
-- 💳 **Payment Integration** - Razorpay payment gateway integration
-- 🛍️ **Product Management** - Full CRUD operations for products and categories
-- 🛒 **Shopping Cart** - Dynamic cart with real-time updates
-- 📦 **Order Management** - Complete order lifecycle management
-- 👤 **User Management** - Role-based access control (Admin/Customer)
-- 📊 **Admin Dashboard** - Comprehensive analytics and inventory management
-- 🎨 **Modern Frontend** - Beautiful animated landing page with JMart branding
-- 🔒 **Security** - BCrypt password hashing and role-based authorization
-- 📱 **Responsive Design** - Mobile-friendly interface
-- 🎯 **Enhanced Navigation** - 16 category navigation with intuitive icons
-- 👤 **Profile Dropdown** - Quick access to profile, orders, wishlist, and settings
-- 🔄 **Consistent Header** - Unified header design across all user pages
+- **JWT Authentication** - Secure token-based authentication
+- **Payment Integration** - Razorpay payment gateway integration
+- **Product Management** - Full CRUD operations for products and categories
+- **Shopping Cart** - Dynamic cart with real-time updates
+- **Order Management** - Complete order lifecycle management
+- **User Management** - Role-based access control (Admin/Customer)
+- **Admin Dashboard** - Comprehensive analytics and inventory management
+- **Modern Frontend** - Beautiful animated landing page with JMart branding
+- **Security** - BCrypt password hashing and role-based authorization
+- **Responsive Design** - Mobile-friendly interface
+- **Enhanced Navigation** - 16 category navigation with intuitive icons
+- **Profile Dropdown** - Quick access to profile, orders, wishlist, and settings
+- **Consistent Header** - Unified header design across all user pages
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Backend
 - **Java 17** - Programming language
@@ -51,14 +51,14 @@ A production-ready e-commerce platform with comprehensive backend API and modern
 - **FontAwesome Icons** - Consistent iconography across the application
 - **Bootstrap 5** - Responsive grid system and components
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Java 17+** installed
 - **MySQL 8.0+** installed and running
 - **Maven** (or use included wrapper)
 - **Razorpay Test Account** (for payment integration)
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -119,7 +119,7 @@ java -jar target/ecommerce-1.0.0.jar
 $env:DB_PASSWORD="Madhanreddy@123"; .\mvnw.cmd spring-boot:run
 ```
 
-## 🌐 Access Points
+## Access Points
 
 Once the application starts successfully:
 
@@ -128,7 +128,7 @@ Once the application starts successfully:
 - **Health Check**: `http://localhost:8080/api/health`
 - **API Base URL**: `http://localhost:8080/api`
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 E-Commerce Platform/
@@ -173,7 +173,7 @@ E-Commerce Platform/
 └── pom.xml
 ```
 
-## 🔑 API Endpoints
+## API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - Register new user
@@ -216,7 +216,7 @@ E-Commerce Platform/
 - `GET /api/admin/inventory` - Inventory management
 - `GET /api/admin/payments` - Payment management
 
-## 👥 User Flow
+## User Flow
 
 1. **Landing Page** → Beautiful animated JMart welcome page
 2. **Registration** → First-time users create account
@@ -227,7 +227,7 @@ E-Commerce Platform/
 7. **Order Management** → Track order status and history
 8. **Profile Management** → Access profile, orders, wishlist, and settings via dropdown
 
-## 🔐 Security Features
+## Security Features
 
 - **JWT Authentication** - Token-based security
 - **BCrypt Password Hashing** - Secure password storage
@@ -237,7 +237,7 @@ E-Commerce Platform/
 - **SQL Injection Prevention** - JPA parameterized queries
 - **XSS Protection** - Input sanitization
 
-## 💳 Payment Integration
+## Payment Integration
 
 - **Razorpay Integration** - TEST/SANDBOX mode
 - **Secure Payment Flow** - Signature verification
@@ -245,7 +245,7 @@ E-Commerce Platform/
 - **Inventory Deduction** - Only after successful payment
 - **Transaction Safety** - Idempotent payment processing
 
-## 🧪 Testing
+## Testing
 
 ### API Testing with Swagger
 1. Navigate to `http://localhost:8080/swagger-ui.html`
@@ -268,7 +268,7 @@ curl -X POST http://localhost:8080/api/auth/login \
   -d '{"email":"john@example.com","password":"Password123"}'
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Database Connection Issues
 - Ensure MySQL is running on localhost:3306
@@ -288,7 +288,7 @@ taskkill /PID <PID> /F
 .\mvnw.cmd clean install
 ```
 
-## 📝 Development Phases
+## Development Phases
 
 - ✅ **Phase 1**: Project setup and basic structure
 - ✅ **Phase 2**: Product and category management
@@ -300,7 +300,7 @@ taskkill /PID <PID> /F
 - ✅ **Phase 9**: Modern frontend with JMart branding
 - ✅ **Phase 10**: Enhanced UI/UX with improved header, navigation, and user experience
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -308,15 +308,15 @@ taskkill /PID <PID> /F
 4. Push to the branch
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## Author
 
 **JMart Development Team**
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Spring Boot team for the amazing framework
 - Razorpay for payment gateway integration
